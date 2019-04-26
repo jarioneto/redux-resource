@@ -1,0 +1,57 @@
+{
+  "name": "@zup-it/redux-resource",
+  "version": "1.0.0",
+  "description": "Utilities for creating CRUD resources for redux",
+  "main": "lib/index.js",
+  "types": "lib/types",
+  "author": "Zup IT",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "yarn build",
+    "build": "rimraf lib && rollup -c && tsc --emitDeclarationOnly",
+    "test": "jest",
+    "eslint": "eslint src --quiet",
+    "check-types": "tsc"
+  },
+  "files": [
+    "lib",
+    "stub"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.4.3",
+    "lodash": "^4.17.11",
+    "redux": "^4.0.1",
+    "redux-saga": "^1.0.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.3",
+    "@babel/plugin-transform-runtime": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/lodash": "^4.14.123",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.4.2",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-import-resolver-babel-module": "^5.0.1",
+    "eslint-plugin-flowtype": "^3.6.1",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "jest": "^24.7.0",
+    "nodemon": "^1.18.10",
+    "rollup": "^1.8.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-multi-entry": "^2.1.0",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-terser": "^4.0.4",
+    "typescript": "^3.4.5"
+  }
+}
