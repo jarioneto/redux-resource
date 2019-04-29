@@ -2,7 +2,7 @@
   "name": "@zup-it/redux-resource",
   "version": "1.0.0",
   "description": "Utilities for creating CRUD resources for redux",
-  "main": "lib/index.js",
+  "main": "lib/redux-resource.js",
   "types": "lib/types",
   "author": "Zup IT",
   "license": "MIT",
