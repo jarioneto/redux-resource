@@ -1,22 +1,18 @@
-declare enum Status {
-  pristine,
-  pending,
-  success,
-  error,
-}
+type Status = 'pristine' | 'pending' | 'success' | 'error'
 
 type SagaEventHandler = (data: { requestData?: Object, responseData: Object }) => void
 
+interface ResourceOperation {
+  status: Status,
+  error: null | Object,
+}
+
 interface Resource<T>  {
   data: T | null,
-  loadStatus: Status,
-  createStatus: Status,
-  updateStatus: Status,
-  removeStatus: Status,
-  loadError: null | Object,
-  createError: null | Object,
-  updateError: null | Object,
-  removeError: null | Object,
+  load: ResourceOperation,
+  create: ResourceOperation,
+  update: ResourceOperation,
+  remove: ResourceOperation,
 }
 
 interface Action {

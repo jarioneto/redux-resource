@@ -1,3 +1,5 @@
+import { Status } from './status'
+
 export const createReducer = (initialState: Object, actions: FunctionMap) =>
   (state: Object = initialState, action: Action) => {
     const reducer = actions[action.type]
@@ -8,45 +10,48 @@ export const createReducer = (initialState: Object, actions: FunctionMap) =>
 export const createResourceReducer = (types: ResourceTypes) => {
   const initialState: Resource<any> = {
     data: null,
-    loadStatus: Status.pristine,
-    createStatus: Status.pristine,
-    updateStatus: Status.pristine,
-    removeStatus: Status.pristine,
-    loadError: null,
-    createError: null,
-    updateError: null,
-    removeError: null,
+    load: { status: Status.pristine, error: null },
+    create: { status: Status.pristine, error: null },
+    update: { status: Status.pristine, error: null },
+    remove: { status: Status.pristine, error: null },
   }
 
   const actions: FunctionMap = {
-    [types.LOAD_PROGRESS]: (state: Resource<any>) => ({ ...state, loadStatus: Status.pending }),
+    [types.LOAD_PROGRESS]: (state: Resource<any>) =>
+      ({ ...state, load: { status: Status.pending, error: null } }),
     [types.LOAD_ERROR]: (state: Resource<any>, { error }: Action) =>
-      ({ ...state, loadStatus: Status.error, loadError: error }),
+      ({ ...state, load: { status: Status.error, error } }),
     [types.LOAD_SUCCESS]: (state: Resource<any>, { data }: Action) =>
-      ({ ...state, loadStatus: Status.success, data }),
+      ({ ...state, data, load: { status: Status.success, error: null } }),
     [types.RESET_LOAD_STATUS]: (state: Resource<any>) =>
-      ({ ...state, loadStatus: Status.pristine, data: null, loadError: null }),
+      ({ ...state, data: null, load: { status: Status.pristine, error: null } }),
 
-    [types.CREATE_PROGRESS]: (state: Resource<any>) => ({ ...state, createStatus: Status.pending }),
+    [types.CREATE_PROGRESS]: (state: Resource<any>) =>
+      ({ ...state, create: { status: Status.pending, error: null } }),
     [types.CREATE_ERROR]: (state: Resource<any>, { error }: Action) =>
-      ({ ...state, createStatus: Status.error, createError: error }),
-    [types.CREATE_SUCCESS]: (state: Resource<any>) => ({ ...state, createStatus: Status.success }),
+      ({ ...state, create: { status: Status.error, error } }),
+    [types.CREATE_SUCCESS]: (state: Resource<any>) =>
+      ({ ...state, create: { status: Status.success, error: null } }),
     [types.RESET_CREATE_STATUS]: (state: Resource<any>) =>
-      ({ ...state, createStatus: Status.pristine, createError: null }),
+      ({ ...state, create: { status: Status.pristine, error: null } }),
 
-    [types.UPDATE_PROGRESS]: (state: Resource<any>) => ({ ...state, updateStatus: Status.pending }),
+    [types.UPDATE_PROGRESS]: (state: Resource<any>) =>
+      ({ ...state, update: { status: Status.pending, error: null } }),
     [types.UPDATE_ERROR]: (state: Resource<any>, { error }: Action) =>
-      ({ ...state, updateStatus: Status.error, updateError: error }),
-    [types.UPDATE_SUCCESS]: (state: Resource<any>) => ({ ...state, updateStatus: Status.success }),
+      ({ ...state, update: { status: Status.error, error } }),
+    [types.UPDATE_SUCCESS]: (state: Resource<any>) =>
+      ({ ...state, update: { status: Status.success, error: null } }),
     [types.RESET_UPDATE_STATUS]: (state: Resource<any>) =>
-      ({ ...state, updateStatus: Status.pristine, updateError: null }),
+      ({ ...state, update: { status: Status.pristine, error: null } }),
 
-    [types.REMOVE_PROGRESS]: (state: Resource<any>) => ({ ...state, removeStatus: Status.pending }),
+    [types.REMOVE_PROGRESS]: (state: Resource<any>) =>
+      ({ ...state, remove: { status: Status.pending, error: null } }),
     [types.REMOVE_ERROR]: (state: Resource<any>, { error }: Action) =>
-      ({ ...state, removeStatus: Status.error, removeError: error }),
-    [types.REMOVE_SUCCESS]: (state: Resource<any>) => ({ ...state, removeStatus: Status.success }),
+      ({ ...state, remove: { status: Status.error, error } }),
+    [types.REMOVE_SUCCESS]: (state: Resource<any>) =>
+      ({ ...state, remove: { status: Status.success, error: null } }),
     [types.RESET_REMOVE_STATUS]: (state: Resource<any>) =>
-      ({ ...state, removeStatus: Status.pristine, removeError: null }),
+      ({ ...state, remove: { status: Status.pristine, error: null } }),
   }
 
   return createReducer(initialState, actions)
