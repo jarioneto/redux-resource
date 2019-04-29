@@ -6,7 +6,7 @@ interface ModifyResource {
   setSuccess: () => Action,
   setError: (error: Object) => Action,
   execute: (data: any) => Promise<any>,
-  onSuccess: SagaEventHandler,
+  onSuccess?: SagaEventHandler,
 }
 
 export function* createEffects(typeToSagaMap: FunctionMap) {
@@ -25,7 +25,7 @@ export const getTypeToSagaMap = (sagaTree: SagaTree, result: FunctionMap = {}) =
 export const loadResource = (
   actions: ResourceActions,
   load: (params?: Object) => Promise<any>,
-  onSuccess: SagaEventHandler,
+  onSuccess?: SagaEventHandler,
 ) => {
   return function* ({ params }: Action) {
     const { setLoadProgress, setLoadSuccess, setLoadError } = actions
@@ -63,7 +63,7 @@ export const createResourceSagas = (
   actions: ResourceActions,
   types: ResourceTypes,
   api: ResourceApi,
-  onSuccess: ResourceEventHandlers,
+  onSuccess: ResourceEventHandlers = {},
 ) => {
   const sagas: FunctionMap = {}
 
