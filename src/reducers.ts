@@ -1,3 +1,4 @@
+import { FunctionMap, Action, ResourceTypes, Resource } from './types'
 import { Status } from './status'
 
 export const createReducer = (initialState: Object, actions: FunctionMap) =>
