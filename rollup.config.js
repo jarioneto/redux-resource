@@ -31,6 +31,6 @@ export default {
     commonjs({
       extensions,
     }),
-    terser(),
+    // terser(),
   ],
 }

@@ -1,6 +1,6 @@
 import { createResourceActions } from './actions'
 import { createReducer, createResourceReducer } from './reducers'
-import { createResourceSagas } from './sagas'
+import { createResourceSagas, createEffects, getTypeToSagaMap } from './sagas'
 
 const createResource = (namespace: string, api: ResourceApi, sagasOnSuccessHandlers?: ResourceEventHandlers) => {
   const { actions, types } = createResourceActions(namespace)
@@ -17,4 +17,6 @@ export {
   createReducer,
   createResourceReducer,
   createResourceSagas,
+  createEffects,
+  getTypeToSagaMap,
 }
