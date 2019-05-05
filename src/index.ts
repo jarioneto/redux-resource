@@ -13,6 +13,7 @@ const createResource = (namespace: string, api: ResourceApi, sagasOnSuccessHandl
 
 export default createResource
 export * from './status'
+export * from './types'
 export {
   createResourceActions,
   createReducer,
