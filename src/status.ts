@@ -1,7 +1,10 @@
-import { Resource, Status } from './types'
+import { Resource } from './types'
 
 interface StatusMap {
-  [key: string]: Status,
+  pristine: 'pristine',
+  pending: 'pending',
+  success: 'success',
+  error: 'error',
 }
 
 export const status: StatusMap = {
