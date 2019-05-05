@@ -53,25 +53,25 @@ export interface ResourceTypes {
 }
 
 export interface ResourceActions {
-  load: (params: any) => Action,
+  load: (params?: any) => Action,
   setLoadProgress: () => Action,
   setLoadSuccess: (data: any) => Action,
   setLoadError: (error: any) => Action,
   resetLoadStatus: () => Action,
 
-  create: (data: any) => Action,
+  create: (data?: any) => Action,
   setCreateProgress: () => Action,
   setCreateSuccess: () => Action,
   setCreateError: (error: any) => Action,
   resetCreateStatus: () => Action,
 
-  update: (data: any) => Action,
+  update: (data?: any) => Action,
   setUpdateProgress: () => Action,
   setUpdateSuccess: () => Action,
   setUpdateError: (error: any) => Action,
   resetUpdateStatus: () => Action,
 
-  remove: (data: any) => Action,
+  remove: (data?: any) => Action,
   setRemoveProgress: () => Action,
   setRemoveSuccess: () => Action,
   setRemoveError: (error: any) => Action,
