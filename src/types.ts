@@ -1,13 +1,13 @@
-type Status = 'pristine' | 'pending' | 'success' | 'error'
+export type Status = 'pristine' | 'pending' | 'success' | 'error'
 
-type SagaEventHandler = (data: { requestData?: Object, responseData: Object }) => void
+export type SagaEventHandler = (data: { requestData?: Object, responseData: Object }) => void
 
-interface ResourceOperation {
+export interface ResourceOperation {
   status: Status,
   error: null | Object,
 }
 
-interface Resource<T>  {
+export interface Resource<T>  {
   data: T | null,
   load: ResourceOperation,
   create: ResourceOperation,
@@ -15,18 +15,18 @@ interface Resource<T>  {
   remove: ResourceOperation,
 }
 
-interface Action {
+export interface Action {
   type: string,
   params?: Object,
   error?: Object,
   data?: Object,
 }
 
-interface FunctionMap {
+export interface FunctionMap {
   [key: string]: (...args: any) => any,
 }
 
-interface ResourceTypes {
+export interface ResourceTypes {
   LOAD: string,
   LOAD_PROGRESS: string,
   LOAD_SUCCESS: string,
@@ -52,7 +52,7 @@ interface ResourceTypes {
   RESET_REMOVE_STATUS: string,
 }
 
-interface ResourceActions {
+export interface ResourceActions {
   load: (params: any) => Action,
   setLoadProgress: () => Action,
   setLoadSuccess: (data: any) => Action,
@@ -78,20 +78,20 @@ interface ResourceActions {
   resetRemoveStatus: () => Action,
 }
 
-interface ResourceApi {
+export interface ResourceApi {
   load?: (params?: Object) => Promise<any>,
-  create?: (data: Object) => Promise<any>,
-  update?: (data: Object) => Promise<any>,
-  remove?: (data: any) => Promise<any>,
+  create?: (data?: Object) => Promise<any>,
+  update?: (data?: Object) => Promise<any>,
+  remove?: (data?: any) => Promise<any>,
 }
 
-interface ResourceEventHandlers {
+export interface ResourceEventHandlers {
   load?: SagaEventHandler,
   create?: SagaEventHandler,
   update?: SagaEventHandler,
   remove?: SagaEventHandler,
 }
 
-interface SagaTree {
+export interface SagaTree {
   [key: string]: (() => any) | SagaTree,
 }

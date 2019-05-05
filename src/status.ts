@@ -1,5 +1,7 @@
+import { Resource, Status as StatusType } from './types'
+
 interface StatusMap {
-  [key: string]: Status,
+  [key: string]: StatusType,
 }
 
 export const Status: StatusMap = {

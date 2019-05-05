@@ -1,3 +1,5 @@
+import { ResourceTypes, ResourceActions, Action } from './types'
+
 export const createResourceActions = (namespace: string) => {
   const types: ResourceTypes = {
     LOAD: `${namespace}/LOAD`,
