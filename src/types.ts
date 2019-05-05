@@ -79,9 +79,9 @@ export interface ResourceActions {
 }
 
 export interface ResourceApi {
-  load?: (params?: Object) => Promise<any>,
-  create?: (data?: Object) => Promise<any>,
-  update?: (data?: Object) => Promise<any>,
+  load?: (params?: any) => Promise<any>,
+  create?: (data?: any) => Promise<any>,
+  update?: (data?: any) => Promise<any>,
   remove?: (data?: any) => Promise<any>,
 }
 
