@@ -13,10 +13,7 @@
     "eslint": "eslint src --quiet",
     "check-types": "tsc"
   },
-  "files": [
-    "lib",
-    "stub"
-  ],
+  "files": ["lib"],
   "dependencies": {
     "@babel/runtime": "^7.4.3",
     "lodash": "^4.17.11",

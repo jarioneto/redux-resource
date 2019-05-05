@@ -83,17 +83,17 @@ interface ResourceActions {
 }
 
 interface ResourceApi {
-  load: (params?: Object) => Promise<any>,
-  create: (data: Object) => Promise<any>,
-  update: (data: Object) => Promise<any>,
-  remove: (data: any) => Promise<any>,
+  load?: (params?: Object) => Promise<any>,
+  create?: (data: Object) => Promise<any>,
+  update?: (data: Object) => Promise<any>,
+  remove?: (data: any) => Promise<any>,
 }
 
 interface ResourceEventHandlers {
-  load: SagaEventHandler,
-  create: SagaEventHandler,
-  update: SagaEventHandler,
-  remove: SagaEventHandler,
+  load?: SagaEventHandler,
+  create?: SagaEventHandler,
+  update?: SagaEventHandler,
+  remove?: SagaEventHandler,
 }
 
 interface SagaTree {
