@@ -2,20 +2,20 @@ import { createResourceActions } from '../actions'
 import { loadResource, modifyResource } from '../sagas'
 import { call, put } from 'redux-saga/effects'
 
-describe('Saga', () => {
-  it('should successfully load', () => {
-    const { actions } = createResourceActions('DEFAULT')
-    const { setLoadProgress, setLoadSuccess } = actions
-    const odin = { load: jest.fn() }
-    const load = loadResource(actions, odin.load)
-    const params = { name: 'JONH' }
-    const saga = load({ params })
-    const response = 'ok'
-    expect(saga.next().value).toEqual(put(setLoadProgress()))
-    expect(saga.next().value).toEqual(call(odin.load, params))
-    expect(saga.next(response).value).toEqual(put(setLoadSuccess(response)))
-    expect(saga.next().done).toBeTruthy()
-  })
+// describe('Saga', () => {
+//   it('should successfully load', () => {
+//     const { actions } = createResourceActions('DEFAULT')
+//     const { setLoadProgress, setLoadSuccess } = actions
+//     const odin = { load: jest.fn() }
+//     const load = loadResource(actions, odin.load)
+//     const params = { name: 'JONH' }
+//     const saga = load({ params })
+//     const response = 'ok'
+//     expect(saga.next().value).toEqual(put(setLoadProgress()))
+//     expect(saga.next().value).toEqual(call(odin.load, params))
+//     expect(saga.next(response).value).toEqual(put(setLoadSuccess(response)))
+//     expect(saga.next().done).toBeTruthy()
+//   })
 
   // it('should yield error while loading', () => {
   //   const { actions } = createResourceActions('DEFAULT')
@@ -66,4 +66,4 @@ describe('Saga', () => {
   //   expect(saga.throw().value).toEqual(put(setUpdateError()))
   //   expect(saga.next().done).toBeTruthy()
   // })
-})
+// })
