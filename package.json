@@ -9,7 +9,7 @@
   "scripts": {
     "prepare": "yarn build",
     "build": "rimraf lib && rollup -c && tsc --emitDeclarationOnly",
-    "test": "jest",
+    "test": "jest src",
     "eslint": "eslint src --quiet",
     "check-types": "tsc"
   },

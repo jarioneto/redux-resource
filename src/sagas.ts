@@ -1,6 +1,5 @@
 import {
   FunctionMap,
-  Action,
   ResourceTypes,
   SagaEventHandler,
   SagaTree,
@@ -10,11 +9,12 @@ import {
 } from './types'
 import { call, put, takeLatest, all } from 'redux-saga/effects'
 import { map, forEach } from 'lodash'
+import { AnyAction } from 'redux'
 
 interface ModifyResource {
-  setProgress: () => Action,
-  setSuccess: () => Action,
-  setError: (error: Object) => Action,
+  setProgress: () => AnyAction,
+  setSuccess: () => AnyAction,
+  setError: (error: Object) => AnyAction,
   execute: (data: any) => Promise<any>,
   onSuccess?: SagaEventHandler,
 }
@@ -37,7 +37,7 @@ export const loadResource = (
   load: (params?: Object) => Promise<any>,
   onSuccess?: SagaEventHandler,
 ) => {
-  return function* ({ params }: Action) {
+  return function* ({ params }: AnyAction) {
     const { setLoadProgress, setLoadSuccess, setLoadError } = actions
     try {
       yield put(setLoadProgress())
@@ -53,7 +53,7 @@ export const loadResource = (
 export const modifyResource = (props: ModifyResource) => {
   const { setProgress, setSuccess, setError, execute, onSuccess } = props
 
-  return function* ({ data }: Action) {
+  return function* ({ data }: AnyAction) {
     try {
       yield put(setProgress())
       const response = yield call(execute, data)
@@ -65,7 +65,7 @@ export const modifyResource = (props: ModifyResource) => {
   }
 }
 
-export const missingSagaError = ({ type }: Action) => {
+export const missingSagaError = ({ type }: AnyAction) => {
   throw new Error(`Missing saga for resource. No api function has been provided for action ${type}`)
 }
 
