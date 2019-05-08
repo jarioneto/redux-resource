@@ -1,8 +1,8 @@
-import babel from 'rollup-plugin-babel'
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 import packageJson from './package.json'
+import typescript from 'rollup-plugin-typescript2'
 
 const extensions = ['.js', '.ts']
 const external = Object.keys(packageJson.dependencies)
@@ -19,12 +19,7 @@ export default {
   },
   external,
   plugins: [
-    babel({
-      babelrc: true,
-      exclude: 'node_modules/**',
-      extensions,
-      runtimeHelpers: true,
-    }),
+    typescript(),
     resolve({
       extensions,
     }),

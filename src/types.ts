@@ -1,4 +1,9 @@
-export type Status = 'pristine' | 'pending' | 'success' | 'error'
+export enum Status {
+  Pristine = 'pristine',
+  Pending = 'pending',
+  Success = 'success',
+  Error = 'error'
+}
 
 export type SagaEventHandler = (data: { requestData?: Object, responseData: Object }) => void
 

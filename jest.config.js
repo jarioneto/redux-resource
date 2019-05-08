@@ -1,4 +1,4 @@
 module.exports = {
-  modulePaths: ['src'],
-  testPathIgnorePatterns: ['<rootDir>/node_modules/'],
-}
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+};
