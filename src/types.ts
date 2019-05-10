@@ -4,6 +4,9 @@ export type Status = 'pristine' | 'pending' | 'success' | 'error'
 
 export type SagaEventHandler = (data: { requestData?: Object, responseData: Object }) => void
 
+export type DynamicSagaEventHandler =
+  (data: { id: string, requestData?: Object, responseData: Object }) => void
+
 export interface ResourceOperation {
   status: Status,
   error: null | Object,
@@ -21,7 +24,6 @@ export type DynamicResource<T> = Record<string, Resource<T>>
 
 export interface Action {
   type: string,
-  id?: string,
   params?: Object,
   error?: Object,
   data?: Object,
@@ -87,6 +89,32 @@ export interface ResourceActions {
   resetRemoveStatus: () => Action,
 }
 
+export interface DynamicResourceActions {
+  load: (id: string, params?: any) => DynamicAction,
+  setLoadProgress: (id: string) => DynamicAction,
+  setLoadSuccess: (id: string, data?: any) => DynamicAction,
+  setLoadError: (id: string, error: any) => DynamicAction,
+  resetLoadStatus: (id: string) => DynamicAction,
+
+  create: (id: string, data?: any) => DynamicAction,
+  setCreateProgress: (id: string) => DynamicAction,
+  setCreateSuccess: (id: string) => DynamicAction,
+  setCreateError: (id: string, error: any) => DynamicAction,
+  resetCreateStatus: (id: string) => DynamicAction,
+
+  update: (id: string, data?: any) => DynamicAction,
+  setUpdateProgress: (id: string) => DynamicAction,
+  setUpdateSuccess: (id: string) => DynamicAction,
+  setUpdateError: (id: string, error: any) => DynamicAction,
+  resetUpdateStatus: (id: string) => DynamicAction,
+
+  remove: (id: string, data?: any) => DynamicAction,
+  setRemoveProgress: (id: string) => DynamicAction,
+  setRemoveSuccess: (id: string) => DynamicAction,
+  setRemoveError: (id: string, error: any) => DynamicAction,
+  resetRemoveStatus: (id: string) => DynamicAction,
+}
+
 export interface ResourceApi {
   load?: (params?: any) => Promise<any>,
   create?: (data?: any) => Promise<any>,
@@ -94,11 +122,25 @@ export interface ResourceApi {
   remove?: (data?: any) => Promise<any>,
 }
 
+export interface DynamicResourceApi {
+  load?: (id: string, params?: any) => Promise<any>,
+  create?: (id: string, data?: any) => Promise<any>,
+  update?: (id: string, data?: any) => Promise<any>,
+  remove?: (id: string, data?: any) => Promise<any>,
+}
+
 export interface ResourceEventHandlers {
   load?: SagaEventHandler,
   create?: SagaEventHandler,
   update?: SagaEventHandler,
   remove?: SagaEventHandler,
+}
+
+export interface DynamicResourceEventHandlers {
+  load?: DynamicSagaEventHandler,
+  create?: DynamicSagaEventHandler,
+  update?: DynamicSagaEventHandler,
+  remove?: DynamicSagaEventHandler,
 }
 
 export interface SagaTree {
