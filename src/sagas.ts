@@ -3,47 +3,45 @@ import {
   Action,
   ResourceTypes,
   SagaEventHandler,
-  SagaTree,
   ResourceActions,
   ResourceApi,
   ResourceEventHandlers,
+  SagaTree,
 } from './types'
-import { call, put, takeLatest, all } from 'redux-saga/effects'
-import { map, forEach } from 'lodash'
-
-interface ModifyResource {
-  setProgress: () => Action,
-  setSuccess: () => Action,
-  setError: (error: Object) => Action,
-  execute: (data: any) => Promise<any>,
-  onSuccess?: SagaEventHandler,
-}
+import { call, put, all, takeLatest } from 'redux-saga/effects'
+import { forEach, map } from 'lodash'
 
 export function* createEffects(typeToSagaMap: FunctionMap) {
   yield all(map(typeToSagaMap, (saga, type) => takeLatest(type, saga)))
 }
 
-export const getTypeToSagaMap = (sagaTree: SagaTree, result: FunctionMap = {}) => {
+export const getTypeToSagaMap = (sagaTree: SagaTree, result: FunctionMap = {}) =>
   forEach(sagaTree, (value, key) => {
     if (typeof value === 'function') result[key] = value // eslint-disable-line
     else getTypeToSagaMap(value, result)
   })
 
-  return result
+interface ModifyResource {
+  createActions: (id?: string) => ResourceActions,
+  setProgress: 'setLoadProgress' | 'setCreateProgress' | 'setUpdateProgress' | 'setRemoveProgress',
+  setSuccess: 'setLoadSuccess' | 'setCreateSuccess' | 'setUpdateSuccess' | 'setRemoveSuccess',
+  setError: 'setLoadError' | 'setCreateError' | 'setUpdateError' | 'setRemoveError',
+  execute: (data: any) => Promise<any>,
+  onSuccess?: SagaEventHandler,
 }
 
 export const loadResource = (
-  actions: ResourceActions,
+  createActions: (id?: string) => ResourceActions,
   load: (params?: Object) => Promise<any>,
   onSuccess?: SagaEventHandler,
 ) => {
-  return function* ({ params }: Action) {
-    const { setLoadProgress, setLoadSuccess, setLoadError } = actions
+  return function* ({ id, params }: Action) {
+    const { setLoadProgress, setLoadSuccess, setLoadError } = createActions(id)
     try {
       yield put(setLoadProgress())
-      const data = yield call(load, params)
+      const data = yield call(load, { ...params, id })
       yield put(setLoadSuccess(data))
-      if (onSuccess) yield  onSuccess({ requestData: params, responseData: data })
+      if (onSuccess) yield  onSuccess({ requestData: { ...params, id }, responseData: data })
     } catch (error) {
       yield put(setLoadError(error))
     }
@@ -51,16 +49,17 @@ export const loadResource = (
 }
 
 export const modifyResource = (props: ModifyResource) => {
-  const { setProgress, setSuccess, setError, execute, onSuccess } = props
+  const { createActions, setProgress, setSuccess, setError, execute, onSuccess } = props
 
-  return function* ({ data }: Action) {
+  return function* ({ id, data }: Action) {
+    const actions = createActions(id)
     try {
-      yield put(setProgress())
+      yield put(actions[setProgress]())
       const response = yield call(execute, data)
-      yield put(setSuccess())
+      yield put(actions[setSuccess]())
       if (onSuccess) yield onSuccess({ requestData: data, responseData: response })
     } catch (error) {
-      yield put(setError(error))
+      yield put(actions[setError](error))
     }
   }
 }
@@ -69,22 +68,23 @@ export const missingSagaError = ({ type }: Action) => {
   throw new Error(`Missing saga for resource. No api function has been provided for action ${type}`)
 }
 
-export const createResourceSagas = (
-  actions: ResourceActions,
+const createSagas = (
+  createActions: (id?: string) => ResourceActions,
   types: ResourceTypes,
   api: ResourceApi,
   onSuccess: ResourceEventHandlers = {},
 ) => {
   const sagas: FunctionMap = {}
 
-  if (api.load) sagas[types.LOAD] = loadResource(actions, api.load, onSuccess.load)
+  if (api.load) sagas[types.LOAD] = loadResource(createActions, api.load, onSuccess.load)
   else sagas[types.LOAD] = missingSagaError
 
   if (api.create) {
     const createSaga = modifyResource({
-      setProgress: actions.setCreateProgress,
-      setSuccess: actions.setCreateSuccess,
-      setError: actions.setCreateError,
+      createActions,
+      setProgress: 'setCreateProgress',
+      setSuccess: 'setCreateSuccess',
+      setError: 'setCreateError',
       execute: api.create,
       onSuccess: onSuccess.create,
     })
@@ -96,9 +96,10 @@ export const createResourceSagas = (
 
   if (api.update) {
     const updateSaga = modifyResource({
-      setProgress: actions.setUpdateProgress,
-      setSuccess: actions.setUpdateSuccess,
-      setError: actions.setUpdateError,
+      createActions,
+      setProgress: 'setUpdateProgress',
+      setSuccess: 'setUpdateSuccess',
+      setError: 'setUpdateError',
       execute: api.update,
       onSuccess: onSuccess.update,
     })
@@ -110,9 +111,10 @@ export const createResourceSagas = (
 
   if (api.remove) {
     const removeSaga = modifyResource({
-      setProgress: actions.setRemoveProgress,
-      setSuccess: actions.setRemoveSuccess,
-      setError: actions.setRemoveError,
+      createActions,
+      setProgress: 'setRemoveProgress',
+      setSuccess: 'setRemoveSuccess',
+      setError: 'setRemoveError',
       execute: api.remove,
       onSuccess: onSuccess.remove,
     })
@@ -124,3 +126,17 @@ export const createResourceSagas = (
 
   return sagas
 }
+
+export const createResourceSagas = (
+  actions: ResourceActions,
+  types: ResourceTypes,
+  api: ResourceApi,
+  onSuccess?: ResourceEventHandlers,
+) => createSagas(
+  () => actions,
+  types,
+  api,
+  onSuccess,
+)
+
+export const createDynamicResourceSagas = createSagas

@@ -1,3 +1,5 @@
+import { AnyAction } from 'redux'
+
 export type Status = 'pristine' | 'pending' | 'success' | 'error'
 
 export type SagaEventHandler = (data: { requestData?: Object, responseData: Object }) => void
@@ -15,11 +17,18 @@ export interface Resource<T>  {
   remove: ResourceOperation,
 }
 
+export type DynamicResource<T> = Record<string, Resource<T>>
+
 export interface Action {
   type: string,
+  id?: string,
   params?: Object,
   error?: Object,
   data?: Object,
+}
+
+export interface DynamicAction extends Action {
+  id: string,
 }
 
 export interface FunctionMap {
@@ -55,7 +64,7 @@ export interface ResourceTypes {
 export interface ResourceActions {
   load: (params?: any) => Action,
   setLoadProgress: () => Action,
-  setLoadSuccess: (data: any) => Action,
+  setLoadSuccess: (data?: any) => Action,
   setLoadError: (error: any) => Action,
   resetLoadStatus: () => Action,
 
