@@ -3,11 +3,11 @@ import {
   Action,
   SagaTree,
 } from '../types'
-import { all, takeLatest } from 'redux-saga/effects'
+import { all, takeEvery } from 'redux-saga/effects'
 import { forEach, map } from 'lodash'
 
-export function* createEffects(typeToSagaMap: FunctionMap) {
-  yield all(map(typeToSagaMap, (saga, type) => takeLatest(type, saga)))
+export function* createEffects(typeToSagaMap: FunctionMap, effect = takeEvery) {
+  yield all(map(typeToSagaMap, (saga, type) => effect(type, saga)))
 }
 
 export const getTypeToSagaMap = (sagaTree: SagaTree, result: FunctionMap = {}) =>
