@@ -1,16 +1,8 @@
 import { FunctionMap, Action, ResourceTypes, Resource } from '../types'
 import { status } from '../status'
-import { createReducer } from './utils'
+import { createReducer, createResourceInitialState } from './utils'
 
 const createResourceReducer = (types: ResourceTypes) => {
-  const initialState: Resource<any> = {
-    data: null,
-    load: { status: status.pristine, error: null },
-    create: { status: status.pristine, error: null },
-    update: { status: status.pristine, error: null },
-    remove: { status: status.pristine, error: null },
-  }
-
   const actions: FunctionMap = {
     [types.LOAD_PROGRESS]: (state: Resource<any>) =>
       ({ ...state, load: { status: status.pending, error: null } }),
@@ -49,7 +41,7 @@ const createResourceReducer = (types: ResourceTypes) => {
       ({ ...state, remove: { status: status.pristine, error: null } }),
   }
 
-  return createReducer(initialState, actions)
+  return createReducer(createResourceInitialState(), actions)
 }
 
 export default createResourceReducer
