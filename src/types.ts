@@ -1,5 +1,3 @@
-import { AnyAction } from 'redux'
-
 export type Status = 'pristine' | 'pending' | 'success' | 'error'
 
 export type SagaEventHandler = (data: { requestData?: Object, responseData: Object }) => void
