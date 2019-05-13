@@ -1,9 +1,23 @@
-import { ResourceApi, ResourceEventHandlers } from './types'
-import { createResourceActions } from './actions'
-import { createReducer, createResourceReducer } from './reducers'
-import { createResourceSagas, createEffects, getTypeToSagaMap } from './sagas'
+import createResourceActions from './actions/static'
+import createDynamicResourceActions from './actions/dynamic'
+import { createReducer } from './reducers/utils'
+import createResourceReducer from './reducers/static'
+import createDynamicResourceReducer from './reducers/dynamic'
+import { createEffects, getTypeToSagaMap } from './sagas/utils'
+import createResourceSagas from './sagas/static'
+import createDynamicResourceSagas from './sagas/dynamic'
+import {
+  ResourceApi,
+  ResourceEventHandlers,
+  DynamicResourceApi,
+  DynamicResourceEventHandlers
+} from './types'
 
-const createResource = (namespace: string, api: ResourceApi, sagasOnSuccessHandlers?: ResourceEventHandlers) => {
+const createResource = (
+  namespace: string,
+  api: ResourceApi,
+  sagasOnSuccessHandlers?: ResourceEventHandlers
+) => {
   const { actions, types } = createResourceActions(namespace)
   const reducers = createResourceReducer(types)
   const sagas = createResourceSagas(actions, types, api, sagasOnSuccessHandlers)
@@ -11,14 +25,24 @@ const createResource = (namespace: string, api: ResourceApi, sagasOnSuccessHandl
   return { actions, types, reducers, sagas }
 }
 
-export default createResource
+const createDynamicResource = (
+  namespace: string,
+  api: DynamicResourceApi,
+  sagasOnSuccessHandlers?: DynamicResourceEventHandlers
+) => {
+  const { actions, types } = createDynamicResourceActions(namespace)
+  const reducers = createDynamicResourceReducer(types)
+  const sagas = createDynamicResourceSagas(actions, types, api, sagasOnSuccessHandlers)
+
+  return { actions, types, reducers, sagas }
+}
+
 export * from './status'
 export * from './types'
 export {
-  createResourceActions,
+  createResource,
+  createDynamicResource,
   createReducer,
-  createResourceReducer,
-  createResourceSagas,
   createEffects,
   getTypeToSagaMap,
 }

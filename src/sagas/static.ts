@@ -3,13 +3,12 @@ import {
   Action,
   ResourceTypes,
   SagaEventHandler,
-  SagaTree,
   ResourceActions,
   ResourceApi,
   ResourceEventHandlers,
-} from './types'
-import { call, put, takeLatest, all } from 'redux-saga/effects'
-import { map, forEach } from 'lodash'
+} from '../types'
+import { call, put } from 'redux-saga/effects'
+import { missingSagaError } from './utils'
 
 interface ModifyResource {
   setProgress: () => Action,
@@ -19,20 +18,7 @@ interface ModifyResource {
   onSuccess?: SagaEventHandler,
 }
 
-export function* createEffects(typeToSagaMap: FunctionMap) {
-  yield all(map(typeToSagaMap, (saga, type) => takeLatest(type, saga)))
-}
-
-export const getTypeToSagaMap = (sagaTree: SagaTree, result: FunctionMap = {}) => {
-  forEach(sagaTree, (value, key) => {
-    if (typeof value === 'function') result[key] = value // eslint-disable-line
-    else getTypeToSagaMap(value, result)
-  })
-
-  return result
-}
-
-export const loadResource = (
+const loadResource = (
   actions: ResourceActions,
   load: (params?: Object) => Promise<any>,
   onSuccess?: SagaEventHandler,
@@ -50,7 +36,7 @@ export const loadResource = (
   }
 }
 
-export const modifyResource = (props: ModifyResource) => {
+const modifyResource = (props: ModifyResource) => {
   const { setProgress, setSuccess, setError, execute, onSuccess } = props
 
   return function* ({ data }: Action) {
@@ -65,11 +51,7 @@ export const modifyResource = (props: ModifyResource) => {
   }
 }
 
-export const missingSagaError = ({ type }: Action) => {
-  throw new Error(`Missing saga for resource. No api function has been provided for action ${type}`)
-}
-
-export const createResourceSagas = (
+const createResourceSagas = (
   actions: ResourceActions,
   types: ResourceTypes,
   api: ResourceApi,
@@ -124,3 +106,5 @@ export const createResourceSagas = (
 
   return sagas
 }
+
+export default createResourceSagas
