@@ -1,17 +1,20 @@
-import { FunctionMap, Action, Resource } from '../types'
-import { status } from '../status'
+import { Status, Resource } from '../types'
+import { Action as ActionRedux } from 'redux'
 
-export const createReducer = (initialState: Object, actions: FunctionMap) =>
-  (state: Object = initialState, action: Action) => {
-    const reducer = actions[action.type]
+type Handlers<State, Types extends string, Actions extends ActionRedux<Types>> = {
+  readonly [Type in Types]: (state: State, action: Actions) => State
+}
 
-    return reducer ? reducer(state, action) : state
-  }
+export const createReducer = <State, Types extends string, Actions extends ActionRedux<Types>>(
+  initialState: State,
+  handlers: Handlers<State, Types, Actions>,
+) => (state = initialState, action: Actions) =>
+  handlers.hasOwnProperty(action.type) ? handlers[action.type as Types](state, action) : state
 
 export const createResourceInitialState = (): Resource<any> => ({
   data: null,
-  load: { status: status.pristine, error: null },
-  create: { status: status.pristine, error: null },
-  update: { status: status.pristine, error: null },
-  remove: { status: status.pristine, error: null },
+  load: { status: Status.pristine, error: null },
+  create: { status: Status.pristine, error: null },
+  update: { status: Status.pristine, error: null },
+  remove: { status: Status.pristine, error: null },
 })

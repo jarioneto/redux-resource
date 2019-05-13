@@ -1,4 +1,9 @@
-export type Status = 'pristine' | 'pending' | 'success' | 'error'
+export enum Status {
+  pristine = 'pristine',
+  pending = 'pending',
+  success = 'success',
+  error = 'error'
+}
 
 export type SagaEventHandler = (data: { requestData?: Object, responseData: Object }) => void
 
@@ -7,7 +12,7 @@ export type DynamicSagaEventHandler =
 
 export interface ResourceOperation {
   status: Status,
-  error: null | Object,
+  error: null | any,
 }
 
 export interface Resource<T>  {
@@ -23,8 +28,8 @@ export type DynamicResource<T> = Record<string, Resource<T>>
 export interface Action {
   type: string,
   params?: Object,
-  error?: Object,
-  data?: Object,
+  error?: any,
+  data?: any,
 }
 
 export interface DynamicAction extends Action {

@@ -1,7 +1,15 @@
-import { createResourceActions } from '../actions'
+import createResourceActions from '../actions/static'
 import { capitalize, reduce } from 'lodash'
+import { ResourceActions } from '../types'
 
-const testActionCreators = (actionCreators, namespace, type) => {
+type Operation = 'load' | 'create' | 'update' | 'remove'
+type Progress = 'setLoadProgress' | 'setCreateProgress' | 'setUpdateProgress' | 'setRemoveProgress'
+type Success = 'setLoadSuccess' | 'setCreateSuccess' | 'setUpdateSuccess' | 'setRemoveSuccess'
+type Error = 'setLoadError' | 'setCreateError' | 'setUpdateError' | 'setRemoveError'
+type Reset = 'resetLoadStatus' | 'resetCreateStatus' | 'resetUpdateStatus' | 'resetRemoveStatus'
+
+
+const testActionCreators = (actionCreators: ResourceActions, namespace: string, type: Operation) => {
   const capitalizedType = capitalize(type)
   const upperName = namespace.toUpperCase()
   const upperType = type.toUpperCase()
@@ -13,27 +21,31 @@ const testActionCreators = (actionCreators, namespace, type) => {
   expect(actionObject).toEqual(expected)
 
   // progress
-  actionObject = actionCreators[`set${capitalizedType}Progress`]()
+  const progress = `set${capitalizedType}Progress` as Progress
+  actionObject = actionCreators[progress]()
   expected = { type: `${upperName}/${upperType}_PROGRESS` }
   expect(actionObject).toEqual(expected)
 
   // success
-  actionObject = actionCreators[`set${capitalizedType}Success`]()
+  const success = `set${capitalizedType}Success` as Success
+  actionObject = actionCreators[success]()
   expected = { type: `${upperName}/${upperType}_SUCCESS` }
   expect(actionObject).toEqual(expected)
 
   // error
-  actionObject = actionCreators[`set${capitalizedType}Error`]()
-  expected = { type: `${upperName}/${upperType}_ERROR` }
+  const error = `set${capitalizedType}Error` as Error
+  actionObject = actionCreators[error]('invalid-field')
+  expected = { type: `${upperName}/${upperType}_ERROR`, error: 'invalid-field' }
   expect(actionObject).toEqual(expected)
 
   // reset
-  actionObject = actionCreators[`reset${capitalizedType}Status`]()
+  const reset = `reset${capitalizedType}Status` as Reset
+  actionObject = actionCreators[reset]()
   expected = { type: `${upperName}/RESET_${upperType}_STATUS` }
   expect(actionObject).toEqual(expected)
 }
 
-const getTypes = (namespace, type) => {
+const getTypes = (namespace: string, type: string) => {
   const keys = [
     `${type}`,
     `${type}_PROGRESS`,
@@ -63,13 +75,5 @@ describe('Create Resource Actions', () => {
       ...getTypes('DEFAULT', 'REMOVE'),
     }
     expect(types).toEqual(expectedTypes)
-  })
-
-  it('should return actions and types with additional', () => {
-    const additionalType = { CUSTOM: 'CUSTOM' }
-    const additionalAction = { custom: () => ({ type: 'CUSTOM' }) }
-    const { types, actions } = createResourceActions('DEFAULT', additionalType, additionalAction)
-    expect(actions.custom()).toEqual({ type: 'CUSTOM' })
-    expect(types.CUSTOM).toBe('CUSTOM')
   })
 })

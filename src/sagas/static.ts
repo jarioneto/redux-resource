@@ -18,7 +18,7 @@ interface ModifyResource {
   onSuccess?: SagaEventHandler,
 }
 
-const loadResource = (
+export const loadResource = (
   actions: ResourceActions,
   load: (params?: Object) => Promise<any>,
   onSuccess?: SagaEventHandler,
@@ -36,7 +36,7 @@ const loadResource = (
   }
 }
 
-const modifyResource = (props: ModifyResource) => {
+export const modifyResource = (props: ModifyResource) => {
   const { setProgress, setSuccess, setError, execute, onSuccess } = props
 
   return function* ({ data }: Action) {
