@@ -11,7 +11,7 @@
     "build": "rimraf lib && rollup -c && tsc --emitDeclarationOnly",
     "test": "jest src",
     "eslint": "eslint src --quiet",
-    "check-types": "tsc"
+    "check-types": "tsc --noEmit"
   },
   "files": [
     "lib"
