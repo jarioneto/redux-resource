@@ -1,35 +1,21 @@
 import {
   FunctionMap,
+  Action,
   ResourceTypes,
   SagaEventHandler,
-  SagaTree,
   ResourceActions,
   ResourceApi,
   ResourceEventHandlers,
-} from './types'
-import { call, put, takeLatest, all } from 'redux-saga/effects'
-import { map, forEach } from 'lodash'
-import { AnyAction } from 'redux'
+} from '../types'
+import { call, put } from 'redux-saga/effects'
+import { missingSagaError } from './utils'
 
 interface ModifyResource {
-  setProgress: () => AnyAction,
-  setSuccess: () => AnyAction,
-  setError: (error: Object) => AnyAction,
+  setProgress: () => Action,
+  setSuccess: () => Action,
+  setError: (error: Object) => Action,
   execute: (data: any) => Promise<any>,
   onSuccess?: SagaEventHandler,
-}
-
-export function* createEffects(typeToSagaMap: FunctionMap) {
-  yield all(map(typeToSagaMap, (saga, type) => takeLatest(type, saga)))
-}
-
-export const getTypeToSagaMap = (sagaTree: SagaTree, result: FunctionMap = {}) => {
-  forEach(sagaTree, (value, key) => {
-    if (typeof value === 'function') result[key] = value // eslint-disable-line
-    else getTypeToSagaMap(value, result)
-  })
-
-  return result
 }
 
 export const loadResource = (
@@ -37,7 +23,7 @@ export const loadResource = (
   load: (params?: Object) => Promise<any>,
   onSuccess?: SagaEventHandler,
 ) => {
-  return function* ({ params }: AnyAction) {
+  return function* ({ params }: Action) {
     const { setLoadProgress, setLoadSuccess, setLoadError } = actions
     try {
       yield put(setLoadProgress())
@@ -53,7 +39,7 @@ export const loadResource = (
 export const modifyResource = (props: ModifyResource) => {
   const { setProgress, setSuccess, setError, execute, onSuccess } = props
 
-  return function* ({ data }: AnyAction) {
+  return function* ({ data }: Action) {
     try {
       yield put(setProgress())
       const response = yield call(execute, data)
@@ -65,11 +51,7 @@ export const modifyResource = (props: ModifyResource) => {
   }
 }
 
-export const missingSagaError = ({ type }: AnyAction) => {
-  throw new Error(`Missing saga for resource. No api function has been provided for action ${type}`)
-}
-
-export const createResourceSagas = (
+const createResourceSagas = (
   actions: ResourceActions,
   types: ResourceTypes,
   api: ResourceApi,
@@ -124,3 +106,5 @@ export const createResourceSagas = (
 
   return sagas
 }
+
+export default createResourceSagas

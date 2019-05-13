@@ -1,5 +1,5 @@
-import { createResourceActions } from '../actions'
-import { loadResource, modifyResource } from '../sagas'
+import createResourceActions from '../actions/static'
+import { loadResource, modifyResource } from '../sagas/static'
 import { call, put } from 'redux-saga/effects'
 
 describe('Saga', () => {
