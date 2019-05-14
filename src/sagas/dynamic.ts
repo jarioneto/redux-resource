@@ -8,7 +8,7 @@ import {
   DynamicResourceEventHandlers,
 } from '../types'
 import { call, put } from 'redux-saga/effects'
-import { missingSagaError } from './utils'
+import { createMissingSagaWarning } from './utils'
 
 interface ModifyResource {
   setProgress: (id: string) => DynamicAction,
@@ -29,7 +29,7 @@ const loadResource = (
       yield put(setLoadProgress(id))
       const data = yield call(load, id, params)
       yield put(setLoadSuccess(id, data))
-      if (onSuccess) yield onSuccess({ id, requestData: { ...params, id }, responseData: data })
+      if (onSuccess) yield onSuccess({ id, requestData: params, responseData: data })
     } catch (error) {
       yield put(setLoadError(id, error))
     }
@@ -60,7 +60,7 @@ const createDynamicResourceSagas = (
   const sagas: FunctionMap = {}
 
   if (api.load) sagas[types.LOAD] = loadResource(actions, api.load, onSuccess.load)
-  else sagas[types.LOAD] = missingSagaError
+  else sagas[types.LOAD] = createMissingSagaWarning
 
   if (api.create) {
     const createSaga = modifyResource({
@@ -73,7 +73,7 @@ const createDynamicResourceSagas = (
 
     sagas[types.CREATE] = createSaga
   } else {
-    sagas[types.CREATE] = missingSagaError
+    sagas[types.CREATE] = createMissingSagaWarning
   }
 
   if (api.update) {
@@ -87,7 +87,7 @@ const createDynamicResourceSagas = (
 
     sagas[types.UPDATE] = updateSaga
   } else {
-    sagas[types.UPDATE] = missingSagaError
+    sagas[types.UPDATE] = createMissingSagaWarning
   }
 
   if (api.remove) {
@@ -101,7 +101,7 @@ const createDynamicResourceSagas = (
 
     sagas[types.REMOVE] = removeSaga
   } else {
-    sagas[types.REMOVE] = missingSagaError
+    sagas[types.REMOVE] = createMissingSagaWarning
   }
 
   return sagas

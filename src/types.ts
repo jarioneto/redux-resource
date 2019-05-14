@@ -5,6 +5,8 @@ export enum Status {
   error = 'error'
 }
 
+export type Operation = 'load' | 'create' | 'update' | 'remove'
+
 export type SagaEventHandler = (data: { requestData?: Object, responseData: Object }) => void
 
 export type DynamicSagaEventHandler =
@@ -91,6 +93,11 @@ export interface ResourceActions {
   setRemoveError: (error: any) => Action,
   resetRemoveStatus: () => Action,
 }
+
+export type ProgressAction = 'setLoadProgress' | 'setCreateProgress' | 'setUpdateProgress' | 'setRemoveProgress'
+export type SuccessAction = 'setLoadSuccess' | 'setCreateSuccess' | 'setUpdateSuccess' | 'setRemoveSuccess'
+export type ErrorAction = 'setLoadError' | 'setCreateError' | 'setUpdateError' | 'setRemoveError'
+export type ResetAction = 'resetLoadStatus' | 'resetCreateStatus' | 'resetUpdateStatus' | 'resetRemoveStatus'
 
 export interface DynamicResourceActions {
   load: (id: string, params?: any) => DynamicAction,

@@ -8,7 +8,7 @@ import {
   ResourceEventHandlers,
 } from '../types'
 import { call, put } from 'redux-saga/effects'
-import { missingSagaError } from './utils'
+import { createMissingSagaWarning } from './utils'
 
 interface ModifyResource {
   setProgress: () => Action,
@@ -29,7 +29,7 @@ export const loadResource = (
       yield put(setLoadProgress())
       const data = yield call(load, params)
       yield put(setLoadSuccess(data))
-      if (onSuccess) yield  onSuccess({ requestData: params, responseData: data })
+      if (onSuccess) yield onSuccess({ requestData: params, responseData: data })
     } catch (error) {
       yield put(setLoadError(error))
     }
@@ -60,7 +60,7 @@ const createResourceSagas = (
   const sagas: FunctionMap = {}
 
   if (api.load) sagas[types.LOAD] = loadResource(actions, api.load, onSuccess.load)
-  else sagas[types.LOAD] = missingSagaError
+  else sagas[types.LOAD] = createMissingSagaWarning
 
   if (api.create) {
     const createSaga = modifyResource({
@@ -73,7 +73,7 @@ const createResourceSagas = (
 
     sagas[types.CREATE] = createSaga
   } else {
-    sagas[types.CREATE] = missingSagaError
+    sagas[types.CREATE] = createMissingSagaWarning
   }
 
   if (api.update) {
@@ -87,7 +87,7 @@ const createResourceSagas = (
 
     sagas[types.UPDATE] = updateSaga
   } else {
-    sagas[types.UPDATE] = missingSagaError
+    sagas[types.UPDATE] = createMissingSagaWarning
   }
 
   if (api.remove) {
@@ -101,7 +101,7 @@ const createResourceSagas = (
 
     sagas[types.REMOVE] = removeSaga
   } else {
-    sagas[types.REMOVE] = missingSagaError
+    sagas[types.REMOVE] = createMissingSagaWarning
   }
 
   return sagas
