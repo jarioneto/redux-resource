@@ -1,15 +1,15 @@
 import { Status, Resource } from '../types'
-import { Action as ActionRedux } from 'redux'
+import { AnyAction } from 'redux'
 
-type Handlers<State, Types extends string, Actions extends ActionRedux<Types>> = {
-  readonly [Type in Types]: (state: State, action: Actions) => State
+interface Handlers<State> {
+  [key: string]: (state: State, action: AnyAction) => State
 }
 
-export const createReducer = <State, Types extends string, Actions extends ActionRedux<Types>>(
+export const createReducer = <State>(
   initialState: State,
-  handlers: Handlers<State, Types, Actions>,
-) => (state = initialState, action: Actions) =>
-  handlers.hasOwnProperty(action.type) ? handlers[action.type as Types](state, action) : state
+  handlers: Handlers<State>,
+) => (state = initialState, action: AnyAction) =>
+  handlers.hasOwnProperty(action.type) ? handlers[action.type](state, action) : state
 
 export const createResourceInitialState = (): Resource<any> => ({
   data: null,
