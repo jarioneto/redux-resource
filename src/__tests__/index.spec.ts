@@ -18,14 +18,14 @@ const originals = {
 
 const actions = { test: jest.fn() }
 const types = { TEST: 'TEST' }
-const reducers = jest.fn()
+const reducer = jest.fn()
 const sagas = { testSaga: jest.fn() }
 
 set(staticResourceActions, 'default', jest.fn(() => ({ actions, types })))
-set(staticResourceReducer, 'default', jest.fn(() => reducers))
+set(staticResourceReducer, 'default', jest.fn(() => reducer))
 set(staticResourceSagas, 'default', jest.fn(() => sagas))
 set(dynamicResourceActions, 'default', jest.fn(() => ({ actions, types })))
-set(dynamicResourceReducer, 'default', jest.fn(() => reducers))
+set(dynamicResourceReducer, 'default', jest.fn(() => reducer))
 set(dynamicResourceSagas, 'default', jest.fn(() => sagas))
 
 const unmock = () => {
@@ -54,7 +54,7 @@ describe('Lib interface', () => {
     expect(staticResourceActions.default).toHaveBeenCalledWith(namespace)
     expect(staticResourceReducer.default).toHaveBeenCalledWith(types)
     expect(staticResourceSagas.default).toHaveBeenCalledWith(actions, types, api, onSuccess)
-    expect(resource).toEqual({ types, actions, reducers, sagas })
+    expect(resource).toEqual({ types, actions, reducer, sagas })
   })
 
   it('should create dynamic resource', () => {
@@ -66,7 +66,7 @@ describe('Lib interface', () => {
     expect(dynamicResourceActions.default).toHaveBeenCalledWith(namespace)
     expect(dynamicResourceReducer.default).toHaveBeenCalledWith(types)
     expect(dynamicResourceSagas.default).toHaveBeenCalledWith(actions, types, api, onSuccess)
-    expect(resource).toEqual({ types, actions, reducers, sagas })
+    expect(resource).toEqual({ types, actions, reducer, sagas })
   })
 
   it('should export', () => {

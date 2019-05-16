@@ -25,7 +25,7 @@ const profile = createResource('PROFILE', profileApi)
 export default { profile }
 ```
 
-`profile` in the code above is an object with the properties `{ types, actions, reducers, sagas }`.
+`profile` in the code above is an object with the properties `{ types, actions, reducer, sagas }`.
 You can register the generated reducer to the redux store and the sagas to the saga-middleware:
 
 ```javascript
@@ -37,7 +37,7 @@ import { createEffects } from '@zup-it/redux-resource'
 const sagaMiddleware = createSagaMiddleware()
 
 const store = createStore(
-  combineReducers({ profile: resources.profile.reducers }),
+  combineReducers({ profile: resources.profile.reducer }),
   applyMiddleware(sagaMiddleware),
 )
 
@@ -211,7 +211,7 @@ constant named `Status` is exported by the lib if you need to use it.
 ## Return value of the `createResource` method
 
 Each resource created by the method `createResource` is an object with the properties `types`,
-`actions`, `reducers`, `sagas`.
+`actions`, `reducer`, `sagas`.
 
 ### resource.types
 
@@ -265,9 +265,9 @@ altering a default saga). The action creators starting with `reset` can be used 
 of an operation to `pristine` and remove any error information. `resetLoadStatus` also wipes the
 contents of `data`.
 
-### resource.reducers
+### resource.reducer
 
-`reducers` is the reducer function that must be provided to redux when creating the store. It
+`reducer` is the reducer function that must be provided to redux when creating the store. It
 receives the current state and an action, returning a new state.
 
 To register the reducers to the store, you can use the following code when creating the store:
@@ -278,17 +278,17 @@ import { createStore, applyMiddleware, combineReducers } from 'redux'
 
 ...
 
-const reducers = combineReducers({
-  profile: resources.profile.reducers,
-  balance: resources.balance.reducers,
-  creditCard: resources.creditCard.reducers,
-  movieCatalog: resources.movieCatalog.reducers,
-  order: resources.order.reducers,
+const reducer = combineReducers({
+  profile: resources.profile.reducer,
+  balance: resources.balance.reducer,
+  creditCard: resources.creditCard.reducer,
+  movieCatalog: resources.movieCatalog.reducer,
+  order: resources.order.reducer,
 })
 
 ...
 
-const store = createStore(reducers, applyMiddleware(sagaMiddleware)) // sagas are explained in the next section
+const store = createStore(reducer, applyMiddleware(sagaMiddleware)) // sagas are explained in the next section
 
 export default store
 ```
@@ -296,7 +296,7 @@ export default store
 If you're using [lodash](https://lodash.com/docs/), it would be shorter to write:
 
 ```javascript
-const reducers = combineReducers(mapValues(resources, 'reducers'))
+const reducer = combineReducers(mapValues(resources, 'reducer'))
 ```
 
 ### resource.sagas
@@ -330,7 +330,7 @@ const rootSaga = function* run() {
   })
 }
 
-const store = createStore(reducers, applyMiddleware(sagaMiddleware))
+const store = createStore(reducer, applyMiddleware(sagaMiddleware))
 sagaMiddleware.run(rootSaga)
 export default store
 ```
