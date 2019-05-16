@@ -19,10 +19,10 @@ const createResource = (
   sagasOnSuccessHandlers?: ResourceEventHandlers
 ) => {
   const { actions, types } = createResourceActions(namespace)
-  const reducers = createResourceReducer(types)
+  const reducer = createResourceReducer(types)
   const sagas = createResourceSagas(actions, types, api, sagasOnSuccessHandlers)
 
-  return { actions, types, reducers, sagas }
+  return { actions, types, reducer, sagas }
 }
 
 const createDynamicResource = (
@@ -31,10 +31,10 @@ const createDynamicResource = (
   sagasOnSuccessHandlers?: DynamicResourceEventHandlers
 ) => {
   const { actions, types } = createDynamicResourceActions(namespace)
-  const reducers = createDynamicResourceReducer(types)
+  const reducer = createDynamicResourceReducer(types)
   const sagas = createDynamicResourceSagas(actions, types, api, sagasOnSuccessHandlers)
 
-  return { actions, types, reducers, sagas }
+  return { actions, types, reducer, sagas }
 }
 
 export * from './status'
