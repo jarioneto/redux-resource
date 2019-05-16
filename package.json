@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "Utilities for creating CRUD resources for redux",
   "main": "lib/redux-resource.js",
-  "types": "lib/types",
+  "types": "lib",
   "author": "Zup IT",
   "license": "MIT",
   "scripts": {
     "prepare": "yarn build",
-    "build": "rimraf lib && rollup -c && tsc --emitDeclarationOnly",
+    "build": "rimraf lib && rollup -c",
     "test": "jest src",
     "eslint": "eslint src --quiet",
     "check-types": "tsc --noEmit"
