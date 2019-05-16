@@ -1,4 +1,4 @@
-# Redux Resources
+# Redux Resource
 
 After dealing multiple times with making network requests, setting their state and rendering stuff
 according to the state of the request and the data returned from the server, we observed that we
@@ -92,7 +92,7 @@ const actions = { loadProfile: resources.profile.actions.load }
 export default connect(mapStateToProps, actions)(Profile)
 ```
 
-In the code above, the profile resource gets injected through the redux connect method. The load
+In the code above, the resource "profile" gets injected through the redux connect method. The load
 operation is dispatched through the action creator `profile.actions.load` and we check the status
 of the request by verifying its status through the helper functions `isPristine` (nothing happened
 to the load operation yet), `isLoading`, `hasLoadError` and `hasLoadSuccess`.
@@ -108,6 +108,15 @@ made it much easier to find and debug possible problems.
 
 # Installation
 
+```
+yarn add @zup-it/redux-resource
+```
+
+or
+
+```
+npm install @zup-next/redux-resource
+```
 
 # Resources
 
@@ -635,9 +644,8 @@ We have some simple projects to demonstrate how the library works. They are:
 - [demo-simple](https://github.com/Tiagoperes/react-blockbuster/tree/master/demo-simple): a simple
 react application in javascript, without any kind of typing. The application is a store for selling
 digital movies.
-- [demo-dynamic-resource]
-(https://github.com/Tiagoperes/react-blockbuster/tree/master/demo-dynamic-resource): a project that
-lists movies and fetches the details of a movie when it's clicked. It's written in javascript
-(without typing) and it's an example of how to use a dynamic resource.
+- [demo-dynamic-resource](https://github.com/Tiagoperes/react-blockbuster/tree/master/demo-dynamic-resource):
+a project that lists movies and fetches the details of a movie when it's clicked. It's written in
+javascript (without typing) and it's an example of how to use a dynamic resource.
 - [demo-typescript](https://github.com/Tiagoperes/react-blockbuster/tree/master/demo-typescript):
 it's the same project presented in "demo-simple", but written in Typescript.
