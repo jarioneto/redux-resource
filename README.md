@@ -101,7 +101,7 @@ To deal with an update to the profile, for instance, we'd use `profile.actions.u
 check the status through the functions `isUpdating`, `hasUpdateError` and `hasUpdateSuccess`.
 
 By building our application around the concept resources, we were able to create a generic behavior
-for every request. With this, we eliminated the need for creating different reducer, types,
+for every request. With this, we eliminated the need for creating different reducers, types,
 actions and sagas, reducing, by a lot, the time needed to implement the functionalities we needed.
 Furthermore, we were able to provide a very simple model for declaring and using requests, which
 made it much easier to find and debug possible problems.
