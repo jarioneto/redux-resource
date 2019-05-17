@@ -426,7 +426,7 @@ below receives a resource object or undefined and returns a boolean.
 # Other utilities
 
 This library also provides four other utility methods: `createEffects`, `getTypeToSagaMap`,
-`createReducer` e `createResourceInitialState`.
+`createReducer` and `createResourceInitialState`.
 
 ## `createEffects(typeToSagaMap, [effect])`
 
