@@ -75,6 +75,7 @@ describe('Lib interface', () => {
       'createResource',
       'createDynamicResource',
       'createReducer',
+      'createResourceInitialState',
       'createEffects',
       'getTypeToSagaMap',
       'isLoadPristine',
