@@ -31,9 +31,9 @@ const test = ({ actionType, operation, status, data, error, initialState }: Prop
 const createTestSuit = (operation: Operation) => {
   const cap = capitalize(operation)
 
-  it(`should set ${operation} in progress`, () => {
+  it(`should set ${operation} in pending`, () => {
     test({
-      actionType: `set${cap}Progress` as keyof ResourceActions,
+      actionType: `set${cap}Pending` as keyof ResourceActions,
       operation,
       status: Status.pending
     })

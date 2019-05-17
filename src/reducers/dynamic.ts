@@ -11,7 +11,7 @@ const createDynamicResourceReducer = (types: ResourceTypes) => {
   const initialState = {}
 
   const actions: FunctionMap = {
-    [types.LOAD_PROGRESS]: (state: DynamicResource<any>, { id }: DynamicAction) =>
+    [types.LOAD_PENDING]: (state: DynamicResource<any>, { id }: DynamicAction) =>
       merge(state, id, { load: { status: Status.pending, error: null } }),
     [types.LOAD_ERROR]: (state: DynamicResource<any>, { id, error }: DynamicAction) =>
       merge(state, id, { load: { status: Status.error, error: error! } }),
@@ -20,7 +20,7 @@ const createDynamicResourceReducer = (types: ResourceTypes) => {
     [types.RESET_LOAD_STATUS]: (state: DynamicResource<any>, { id }) =>
       merge(state, id, { data: null, load: { status: Status.pristine, error: null } }),
 
-    [types.CREATE_PROGRESS]: (state: DynamicResource<any>, { id }: DynamicAction) =>
+    [types.CREATE_PENDING]: (state: DynamicResource<any>, { id }: DynamicAction) =>
       merge(state, id, { create: { status: Status.pending, error: null } }),
     [types.CREATE_ERROR]: (state: DynamicResource<any>, { id, error }: DynamicAction) =>
       merge(state, id, { create: { status: Status.error, error: error! } }),
@@ -29,7 +29,7 @@ const createDynamicResourceReducer = (types: ResourceTypes) => {
     [types.RESET_CREATE_STATUS]: (state: DynamicResource<any>, { id }: DynamicAction) =>
       merge(state, id, { create: { status: Status.pristine, error: null } }),
 
-    [types.UPDATE_PROGRESS]: (state: DynamicResource<any>, { id }: DynamicAction) =>
+    [types.UPDATE_PENDING]: (state: DynamicResource<any>, { id }: DynamicAction) =>
       merge(state, id, { update: { status: Status.pending, error: null } }),
     [types.UPDATE_ERROR]: (state: DynamicResource<any>, { id, error }: DynamicAction) =>
       merge(state, id, { update: { status: Status.error, error: error! } }),
@@ -38,7 +38,7 @@ const createDynamicResourceReducer = (types: ResourceTypes) => {
     [types.RESET_UPDATE_STATUS]: (state: DynamicResource<any>, { id }: DynamicAction) =>
       merge(state, id, { update: { status: Status.pristine, error: null } }),
 
-    [types.REMOVE_PROGRESS]: (state: DynamicResource<any>, { id }: DynamicAction) =>
+    [types.REMOVE_PENDING]: (state: DynamicResource<any>, { id }: DynamicAction) =>
       merge(state, id, { remove: { status: Status.pending, error: null } }),
     [types.REMOVE_ERROR]: (state: DynamicResource<any>, { id, error }: DynamicAction) =>
       merge(state, id, { remove: { status: Status.error, error: error! } }),

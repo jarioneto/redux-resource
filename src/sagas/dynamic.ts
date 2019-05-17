@@ -11,7 +11,7 @@ import { call, put } from 'redux-saga/effects'
 import { createMissingSagaWarning } from './utils'
 
 interface ModifyResource {
-  setProgress: (id: string) => DynamicAction,
+  setPending: (id: string) => DynamicAction,
   setSuccess: (id: string) => DynamicAction,
   setError: (id: string, error: any) => DynamicAction,
   execute: (id: string, data?: any) => Promise<any>,
@@ -24,9 +24,9 @@ const loadResource = (
   onSuccess?: DynamicSagaEventHandler,
 ) => {
   return function* ({ id, params }: DynamicAction) {
-    const { setLoadProgress, setLoadSuccess, setLoadError } = actions
+    const { setLoadPending, setLoadSuccess, setLoadError } = actions
     try {
-      yield put(setLoadProgress(id))
+      yield put(setLoadPending(id))
       const data = yield call(load, id, params)
       yield put(setLoadSuccess(id, data))
       if (onSuccess) yield onSuccess({ id, requestData: params, responseData: data })
@@ -37,11 +37,11 @@ const loadResource = (
 }
 
 const modifyResource = (props: ModifyResource) => {
-  const { setProgress, setSuccess, setError, execute, onSuccess } = props
+  const { setPending, setSuccess, setError, execute, onSuccess } = props
 
   return function* ({ id, data }: DynamicAction) {
     try {
-      yield put(setProgress(id))
+      yield put(setPending(id))
       const response = yield call(execute, id, data)
       yield put(setSuccess(id))
       if (onSuccess) yield onSuccess({ id, requestData: data, responseData: response })
@@ -64,7 +64,7 @@ const createDynamicResourceSagas = (
 
   if (api.create) {
     const createSaga = modifyResource({
-      setProgress: actions.setCreateProgress,
+      setPending: actions.setCreatePending,
       setSuccess: actions.setCreateSuccess,
       setError: actions.setCreateError,
       execute: api.create,
@@ -78,7 +78,7 @@ const createDynamicResourceSagas = (
 
   if (api.update) {
     const updateSaga = modifyResource({
-      setProgress: actions.setUpdateProgress,
+      setPending: actions.setUpdatePending,
       setSuccess: actions.setUpdateSuccess,
       setError: actions.setUpdateError,
       execute: api.update,
@@ -92,7 +92,7 @@ const createDynamicResourceSagas = (
 
   if (api.remove) {
     const removeSaga = modifyResource({
-      setProgress: actions.setRemoveProgress,
+      setPending: actions.setRemovePending,
       setSuccess: actions.setRemoveSuccess,
       setError: actions.setRemoveError,
       execute: api.remove,
