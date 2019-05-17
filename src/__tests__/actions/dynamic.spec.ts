@@ -3,7 +3,7 @@ import { capitalize } from 'lodash'
 import {
   DynamicResourceActions,
   Operation,
-  ProgressAction,
+  PendingAction,
   SuccessAction,
   ErrorAction,
   ResetAction,
@@ -20,10 +20,10 @@ const testActionCreators = (actionCreators: DynamicResourceActions, id: string, 
   let expected = { type: `${upperName}/${upperType}`, id, [key]: { test: 'test' } }
   expect(actionObject).toEqual(expected)
 
-  // progress
-  const progress = `set${capitalizedType}Progress` as ProgressAction
-  actionObject = actionCreators[progress](id)
-  expected = { type: `${upperName}/${upperType}_PROGRESS`, id }
+  // pending
+  const pending = `set${capitalizedType}Pending` as PendingAction
+  actionObject = actionCreators[pending](id)
+  expected = { type: `${upperName}/${upperType}_PENDING`, id }
   expect(actionObject).toEqual(expected)
 
   // success

@@ -14,7 +14,7 @@ import {
   FunctionMap,
   ResourceTypes,
   Operation,
-  ProgressAction,
+  PendingAction,
   SuccessAction,
   ErrorAction,
 } from '../../types'
@@ -43,11 +43,11 @@ describe('Saga', () => {
 
   const testModifySuccess = (
     operation: Operation,
-    setProgressKey: ProgressAction,
+    setPendingKey: PendingAction,
     setSuccessKey: SuccessAction,
   ) => {
     const { actions, types } = createDynamicResourceActions('DEFAULT')
-    const setProgress = actions[setProgressKey]
+    const setPending = actions[setPendingKey]
     const setSuccess = actions[setSuccessKey]
     const sagas = createDynamicResourceSagas(actions, types, api, onSuccess)
     const data = { name: 'John' }
@@ -55,7 +55,7 @@ describe('Saga', () => {
     const id = 'id001'
     const saga = sagas[type]({ type, id, data })
     const response = 'ok'
-    expect(saga.next().value).toEqual(put(setProgress(id)))
+    expect(saga.next().value).toEqual(put(setPending(id)))
     expect(saga.next().value).toEqual(call(api[operation], id, data))
     expect(saga.next(response).value).toEqual(put(setSuccess(id)))
     saga.next()
@@ -65,18 +65,18 @@ describe('Saga', () => {
 
   const testModifyError = (
     operation: Operation,
-    setProgressKey: ProgressAction,
+    setPendingKey: PendingAction,
     setErrorKey: ErrorAction,
   ) => {
     const { actions, types } = createDynamicResourceActions('DEFAULT')
-    const setProgress = actions[setProgressKey]
+    const setPending = actions[setPendingKey]
     const setError = actions[setErrorKey]
     const sagas = createDynamicResourceSagas(actions, types, api, onSuccess)
     const data = { name: 'John' }
     const type = types[operation.toUpperCase() as keyof ResourceTypes]
     const id = 'id001'
     const saga = sagas[type]({ type, id, data })
-    expect(saga.next().value).toEqual(put(setProgress(id)))
+    expect(saga.next().value).toEqual(put(setPending(id)))
     expect(saga.next().value).toEqual(call(api[operation], id, data))
     const error = new Error('error')
     expect(saga.throw!(error).value).toEqual(put(setError(id, error)))
@@ -94,13 +94,13 @@ describe('Saga', () => {
 
   it('should successfully load', () => {
     const { actions, types } = createDynamicResourceActions('DEFAULT')
-    const { setLoadProgress, setLoadSuccess } = actions
+    const { setLoadPending, setLoadSuccess } = actions
     const sagas = createDynamicResourceSagas(actions, types, api, onSuccess)
     const params = { name: 'John' }
     const id = 'id001'
     const saga = sagas[types.LOAD]({ type: types.LOAD, id, params })
     const response = 'ok'
-    expect(saga.next().value).toEqual(put(setLoadProgress(id)))
+    expect(saga.next().value).toEqual(put(setLoadPending(id)))
     expect(saga.next().value).toEqual(call(api.load, id, params))
     expect(saga.next(response).value).toEqual(put(setLoadSuccess(id, response)))
     saga.next()
@@ -110,12 +110,12 @@ describe('Saga', () => {
 
   it('should yield error while loading', () => {
     const { actions, types } = createDynamicResourceActions('DEFAULT')
-    const { setLoadProgress, setLoadError } = actions
+    const { setLoadPending, setLoadError } = actions
     const sagas = createDynamicResourceSagas(actions, types, api, onSuccess)
     const params = { name: 'John' }
     const id = 'id001'
     const saga = sagas[types.LOAD]({ type: types.LOAD, id, params })
-    expect(saga.next().value).toEqual(put(setLoadProgress(id)))
+    expect(saga.next().value).toEqual(put(setLoadPending(id)))
     expect(saga.next().value).toEqual(call(api.load, id, params))
     const error = new Error('error')
     expect(saga.throw!(error).value).toEqual(put(setLoadError(id, error)))
@@ -124,27 +124,27 @@ describe('Saga', () => {
   })
 
   it('should successfully create', () => {
-    testModifySuccess('create', 'setCreateProgress', 'setCreateSuccess')
+    testModifySuccess('create', 'setCreatePending', 'setCreateSuccess')
   })
 
   it('should yield error while creating', () => {
-    testModifyError('create', 'setCreateProgress', 'setCreateError')
+    testModifyError('create', 'setCreatePending', 'setCreateError')
   })
 
   it('should successfully update', () => {
-    testModifySuccess('update', 'setUpdateProgress', 'setUpdateSuccess')
+    testModifySuccess('update', 'setUpdatePending', 'setUpdateSuccess')
   })
 
   it('should yield error while updating', () => {
-    testModifyError('update', 'setUpdateProgress', 'setUpdateError')
+    testModifyError('update', 'setUpdatePending', 'setUpdateError')
   })
 
   it('should successfully remove', () => {
-    testModifySuccess('remove', 'setRemoveProgress', 'setRemoveSuccess')
+    testModifySuccess('remove', 'setRemovePending', 'setRemoveSuccess')
   })
 
   it('should yield error while removing', () => {
-    testModifyError('remove', 'setRemoveProgress', 'setRemoveError')
+    testModifyError('remove', 'setRemovePending', 'setRemoveError')
   })
 
 })

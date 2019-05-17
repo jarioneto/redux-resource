@@ -3,7 +3,7 @@ import { createReducer, createResourceInitialState } from './utils'
 
 const createResourceReducer = (types: ResourceTypes) => {
   const actions: FunctionMap = {
-    [types.LOAD_PROGRESS]: (state: Resource<any>) =>
+    [types.LOAD_PENDING]: (state: Resource<any>) =>
       ({ ...state, load: { status: Status.pending, error: null } }),
     [types.LOAD_ERROR]: (state: Resource<any>, { error }: Action) =>
       ({ ...state, load: { status: Status.error, error } }),
@@ -12,7 +12,7 @@ const createResourceReducer = (types: ResourceTypes) => {
     [types.RESET_LOAD_STATUS]: (state: Resource<any>) =>
       ({ ...state, data: null, load: { status: Status.pristine, error: null } }),
 
-    [types.CREATE_PROGRESS]: (state: Resource<any>) =>
+    [types.CREATE_PENDING]: (state: Resource<any>) =>
       ({ ...state, create: { status: Status.pending, error: null } }),
     [types.CREATE_ERROR]: (state: Resource<any>, { error }: Action) =>
       ({ ...state, create: { status: Status.error, error } }),
@@ -21,7 +21,7 @@ const createResourceReducer = (types: ResourceTypes) => {
     [types.RESET_CREATE_STATUS]: (state: Resource<any>) =>
       ({ ...state, create: { status: Status.pristine, error: null } }),
 
-    [types.UPDATE_PROGRESS]: (state: Resource<any>) =>
+    [types.UPDATE_PENDING]: (state: Resource<any>) =>
       ({ ...state, update: { status: Status.pending, error: null } }),
     [types.UPDATE_ERROR]: (state: Resource<any>, { error }: Action) =>
       ({ ...state, update: { status: Status.error, error } }),
@@ -30,7 +30,7 @@ const createResourceReducer = (types: ResourceTypes) => {
     [types.RESET_UPDATE_STATUS]: (state: Resource<any>) =>
       ({ ...state, update: { status: Status.pristine, error: null } }),
 
-    [types.REMOVE_PROGRESS]: (state: Resource<any>) =>
+    [types.REMOVE_PENDING]: (state: Resource<any>) =>
       ({ ...state, remove: { status: Status.pending, error: null } }),
     [types.REMOVE_ERROR]: (state: Resource<any>, { error }: Action) =>
       ({ ...state, remove: { status: Status.error, error } }),

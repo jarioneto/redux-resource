@@ -220,25 +220,25 @@ Each resource created by the method `createResource` is an object with the prope
 ```javascript
 {
   LOAD: 'PROFILE/LOAD',
-  LOAD_PROGRESS: 'PROFILE/LOAD_PROGRESS',
+  LOAD_PENDING: 'PROFILE/LOAD_PENDING',
   LOAD_SUCCESS: 'PROFILE/LOAD_SUCCESS',
   LOAD_ERROR: 'PROFILE/LOAD_ERROR',
   RESET_LOAD_STATUS: 'PROFILE/RESET_LOAD_STATUS',
 
   CREATE: 'PROFILE/CREATE',
-  CREATE_PROGRESS: 'PROFILE/CREATE_PROGRESS',
+  CREATE_PENDING: 'PROFILE/CREATE_PENDING',
   CREATE_SUCCESS: 'PROFILE/CREATE_SUCCESS',
   CREATE_ERROR: 'PROFILE/CREATE_ERROR',
   RESET_CREATE_STATUS: 'PROFILE/RESET_CREATE_STATUS',
 
   UPDATE: 'PROFILE/UPDATE',
-  UPDATE_PROGRESS: 'PROFILE/UPDATE_PROGRESS',
+  UPDATE_PENDING: 'PROFILE/UPDATE_PENDING',
   UPDATE_SUCCESS: 'PROFILE/UPDATE_SUCCESS',
   UPDATE_ERROR: 'PROFILE/UPDATE_ERROR',
   RESET_UPDATE_STATUS: 'PROFILE/RESET_UPDATE_STATUS',
 
   REMOVE: 'PROFILE/REMOVE',
-  REMOVE_PROGRESS: 'PROFILE/REMOVE_PROGRESS',
+  REMOVE_PENDING: 'PROFILE/REMOVE_PENDING',
   REMOVE_SUCCESS: 'PROFILE/REMOVE_SUCCESS',
   REMOVE_ERROR: 'PROFILE/REMOVE_ERROR',
   RESET_REMOVE_STATUS: 'PROFILE/RESET_REMOVE_STATUS',
@@ -248,10 +248,10 @@ Each resource created by the method `createResource` is an object with the prope
 ### resource.actions
 
 `actions` is an object of action creators: If we create a resource with the namespace `'PROFILE'`,
-its actions would be an object with the following functions: `load`, `setLoadProgress`,
-`setLoadSuccess`, `setLoadError`, `resetLoadStatus`, `create`, `setCreateProgress`,
-`setCreateSuccess`, `setCreateError`, `resetCreateStatus`, `update`, `setUpdateProgress`,
-`setUpdateSuccess`, `setUpdateError`, `resetUpdateStatus`, `remove`, `setRemoveProgress`,
+its actions would be an object with the following functions: `load`, `setLoadPending`,
+`setLoadSuccess`, `setLoadError`, `resetLoadStatus`, `create`, `setCreatePending`,
+`setCreateSuccess`, `setCreateError`, `resetCreateStatus`, `update`, `setUpdatePending`,
+`setUpdateSuccess`, `setUpdateError`, `resetUpdateStatus`, `remove`, `setRemovePending`,
 `setRemoveSuccess`, `setRemoveError`, `resetRemoveStatus`.
 
 Each of these functions returns an action object ready to be dispatched by redux. The functions
@@ -407,19 +407,19 @@ below receives a resource object or undefined and returns a boolean.
 |------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | isLoadPristine   | Verifies if the the load operation has not been started yet. True if resource is undefined or `resource.load.status` is "pristine". false otherwise.     |
 | isPristine       | alias for isLoadPristine                                                                                                                                 |
-| isLoading        | Verifies if the the load operation is in progress. True if `resource.load.status` is "progress". false otherwise.                                        |
+| isLoading        | Verifies if the the load operation is pending. True if `resource.load.status` is "pending". false otherwise.                                        |
 | hasLoadSuccess   | Verifies if the the load operation has succeeded. True if `resource.load.status` is "success". false otherwise.                                          |
 | hasLoadError     | Verifies if the the load operation had an error. True if `resource.load.status` is "error". false otherwise.                                             |
 | isCreatePristine | Verifies if the the create operation has not been started yet. True if resource is undefined or `resource.create.status` is "pristine". false otherwise. |
-| isCreating       | Verifies if the the create operation is in progress. True if `resource.create.status` is "progress". false otherwise.                                    |
+| isCreating       | Verifies if the the create operation is pending. True if `resource.create.status` is "pending". false otherwise.                                    |
 | hasCreateSuccess | Verifies if the the create operation has succeeded. True if `resource.create.status` is "success". false otherwise.                                      |
 | hasCreateError   | Verifies if the the create operation had an error. True if `resource.create.status` is "error". false otherwise.                                         |
 | isUpdatePristine | Verifies if the the update operation has not been started yet. True if resource is undefined or `resource.update.status` is "pristine". false otherwise. |
-| isUpdating       | Verifies if the the update operation is in progress. True if `resource.update.status` is "progress". false otherwise.                                    |
+| isUpdating       | Verifies if the the update operation is pending. True if `resource.update.status` is "pending". false otherwise.                                    |
 | hasUpdateSuccess | Verifies if the the update operation has succeeded. True if `resource.update.status` is "success". false otherwise.                                      |
 | hasUpdateError   | Verifies if the the update operation had an error. True if `resource.update.status` is "error". false otherwise.                                         |
 | isRemovePristine | Verifies if the the remove operation has not been started yet. True if resource is undefined or `resource.remove.status` is "pristine". false otherwise. |
-| isRemoving       | Verifies if the the remove operation is in progress. True if `resource.remove.status` is "progress". false otherwise.                                    |
+| isRemoving       | Verifies if the the remove operation is pending. True if `resource.remove.status` is "pending". false otherwise.                                    |
 | hasRemoveSuccess | Verifies if the the remove operation has succeeded. True if `resource.remove.status` is "success". false otherwise.                                      |
 | hasRemoveError   | Verifies if the the remove operation ha an error. True if `resource.remove.status` is "error". false otherwise.                                          |
 

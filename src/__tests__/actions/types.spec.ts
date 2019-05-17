@@ -4,7 +4,7 @@ import { reduce } from 'lodash'
 const getTypes = (namespace: string, type: string) => {
   const keys = [
     `${type}`,
-    `${type}_PROGRESS`,
+    `${type}_PENDING`,
     `${type}_SUCCESS`,
     `${type}_ERROR`,
     `RESET_${type}_STATUS`,
