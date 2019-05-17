@@ -1,6 +1,6 @@
 import createResourceActions from './actions/static'
 import createDynamicResourceActions from './actions/dynamic'
-import { createReducer } from './reducers/utils'
+import { createReducer, createResourceInitialState } from './reducers/utils'
 import createResourceReducer from './reducers/static'
 import createDynamicResourceReducer from './reducers/dynamic'
 import { createEffects, getTypeToSagaMap } from './sagas/utils'
@@ -43,6 +43,7 @@ export {
   createResource,
   createDynamicResource,
   createReducer,
+  createResourceInitialState,
   createEffects,
   getTypeToSagaMap,
 }

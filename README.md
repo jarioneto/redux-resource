@@ -425,8 +425,8 @@ below receives a resource object or undefined and returns a boolean.
 
 # Other utilities
 
-This library also provides three other utility methods: `createEffects`, `getTypeToSagaMap` and
-`createReducer`.
+This library also provides four other utility methods: `createEffects`, `getTypeToSagaMap`,
+`createReducer` e `createResourceInitialState`.
 
 ## `createEffects(typeToSagaMap, [effect])`
 
@@ -509,6 +509,21 @@ const handlers = {
 }
 
 const reducer = createReducer(initialState, handlers)
+```
+
+## `createResourceInitialState()`
+
+This function is useful mainly for testing purposes. It creates a blank (pristine) state for a
+resource. It will always return the following object:
+
+```javascript
+{
+  data: null,
+  load: { status: Status.pristine, error: null },
+  create: { status: Status.pristine, error: null },
+  update: { status: Status.pristine, error: null },
+  remove: { status: Status.pristine, error: null },
+}
 ```
 
 # Dynamic resources
