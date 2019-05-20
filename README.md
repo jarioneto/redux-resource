@@ -617,6 +617,62 @@ const mapStateToProps = ({ movie }) => ({ movie })
 export default connect(mapStateToProps)(MyComponent)
 ```
 
+# Testing
+
+The redux-resource library is well tested and you don't need to retest all of its functionalities.
+If you dispatch the correct action and link everything correctly, your redux state will change
+accordingly. Having said that, we still advise testing your APIs and configuration. To do so, we
+suggest using [nock](https://github.com/nock/nock) and
+[redux-saga-tester](https://github.com/wix/redux-saga-tester). These two libraries can be used
+to test everything related to your resource, from the dispatch of an action to the api call and
+finally the state change. See the example below for testing the success and error case for the
+load operation of a resource called "catalog".
+
+```javascript
+describe('Resource tests: catalog', () => {
+  it('should load catalog successfully', async () => {
+    const sagaTester = new SagaTester({
+      reducers: mapValues(resources, 'reducer'),
+    })
+
+    const payload = [{ id: '1', title: 'Lord of the Rings' }, { id: '2', title: 'Avatar' }]
+    nock(url).get('/catalog').reply(200, payload)
+
+    sagaTester.start(rootSaga)
+    sagaTester.dispatch(catalog.actions.load())
+
+    await sagaTester.waitFor(catalog.types.LOAD_SUCCESS)
+    expect(sagaTester.getState().catalog).toStrictEqual({
+      ...createResourceInitialState(),
+      data: payload,
+      load: { status: Status.success, error: null },
+    })
+  })
+
+  it('should yield error while loading catalog', async () => {
+    const sagaTester = new SagaTester({
+      reducers: mapValues(resources, 'reducer'),
+    })
+
+    const errorPayload = { message: 'error-message' }
+    nock(url).get('/catalog').reply(500, errorPayload)
+
+    sagaTester.start(rootSaga)
+    sagaTester.dispatch(catalog.actions.load())
+
+    await sagaTester.waitFor(catalog.types.LOAD_ERROR)
+    expect(sagaTester.getState().catalog).toStrictEqual({
+      ...createResourceInitialState(),
+      load: { status: Status.error, error: new ApiError(500, errorPayload) },
+    })
+  })
+})
+```
+
+The code above was written using Jest and it was taken from one of our demonstration projects. Click
+[here](https://github.com/Tiagoperes/react-blockbuster/tree/master/demo-dynamic-resource) to check
+it out.
+
 # Types
 This library is written in Typescript. If you don't use it, it's fine, all the code is transpiled
 to common js. But, if you do use Typescript, you can take advantage of all the types we already
