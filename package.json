@@ -5,9 +5,16 @@
   "main": "lib/redux-resource.js",
   "types": "lib",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zup-next/redux-resource/issues"
+  },
+  "homepage": "https://github.com/zup-next/redux-resource#readme",
+  "directories": {
+    "lib": "lib"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/zup-next/redux-resource"
+    "url": "git+https://github.com/zup-next/redux-resource.git"
   },
   "scripts": {
     "prepare": "yarn build && yarn test && yarn eslint",
