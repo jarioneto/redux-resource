@@ -10,7 +10,7 @@
     "url": "https://github.com/zup-next/redux-resource"
   },
   "scripts": {
-    "prepublish": "yarn build && yarn test && yarn eslint",
+    "prepare": "yarn build && yarn test && yarn eslint",
     "build": "rimraf lib && rollup -c",
     "test": "jest src",
     "eslint": "eslint src --ext .ts",
