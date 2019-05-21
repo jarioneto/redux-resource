@@ -1,5 +1,5 @@
 {
-  "name": "@zup-it/redux-resource",
+  "name": "@zup-next/redux-resource",
   "version": "1.0.0",
   "description": "Utilities for creating CRUD resources for redux",
   "main": "lib/redux-resource.js",
