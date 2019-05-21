@@ -4,8 +4,11 @@
   "description": "Utilities for creating CRUD resources for redux",
   "main": "lib/redux-resource.js",
   "types": "lib",
-  "author": "Zup IT",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zup-next/redux-resource"
+  },
   "scripts": {
     "prepublish": "yarn build && yarn test && yarn eslint",
     "build": "rimraf lib && rollup -c",
