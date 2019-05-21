@@ -20,7 +20,7 @@ interface ModifyResource {
 
 const loadResource = (
   actions: DynamicResourceActions,
-  load: (id: string, params?: Object) => Promise<any>,
+  load: (id: string, params?: Record<string, any>) => Promise<any>,
   onSuccess?: DynamicSagaEventHandler,
 ) => {
   return function* ({ id, params }: DynamicAction) {

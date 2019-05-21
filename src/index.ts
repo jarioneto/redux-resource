@@ -10,7 +10,7 @@ import {
   ResourceApi,
   ResourceEventHandlers,
   DynamicResourceApi,
-  DynamicResourceEventHandlers
+  DynamicResourceEventHandlers,
 } from './types'
 
 const createResource = (

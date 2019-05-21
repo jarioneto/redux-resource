@@ -7,17 +7,17 @@ export enum Status {
 
 export type Operation = 'load' | 'create' | 'update' | 'remove'
 
-export type SagaEventHandler = (data: { requestData?: Object, responseData: Object }) => void
+export type SagaEventHandler = (data: { requestData?: any, responseData: any }) => void
 
 export type DynamicSagaEventHandler =
-  (data: { id: string, requestData?: Object, responseData: Object }) => void
+  (data: { id: string, requestData?: any, responseData: any }) => void
 
 export interface ResourceOperation {
   status: Status,
   error: null | any,
 }
 
-export interface Resource<T>  {
+export interface Resource<T> {
   data: T | null,
   load: ResourceOperation,
   create: ResourceOperation,
@@ -29,7 +29,7 @@ export type DynamicResource<T> = Record<string, Resource<T>>
 
 export interface Action {
   type: string,
-  params?: Object,
+  params?: Record<string, any>,
   error?: any,
   data?: any,
 }

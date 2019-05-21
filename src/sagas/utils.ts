@@ -6,7 +6,7 @@ import {
 import { all, takeEvery } from 'redux-saga/effects'
 import { forEach, map } from 'lodash'
 
-export function* createEffects(typeToSagaMap: FunctionMap, effect = takeEvery) {
+export function* createEffects (typeToSagaMap: FunctionMap, effect = takeEvery) {
   yield all(map(typeToSagaMap, (saga, type) => effect(type, saga)))
 }
 

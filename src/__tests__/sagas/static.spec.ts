@@ -1,12 +1,5 @@
 import * as sagaUtils from '../../sagas/utils'
 import { set } from 'lodash'
-
-// mocking sagaUtils
-const originalWarning = sagaUtils.createMissingSagaWarning
-set(sagaUtils, 'createMissingSagaWarning', jest.fn())
-const unmock = () => set(sagaUtils, 'createMissingSagaWarning', originalWarning)
-// end mock
-
 import createResourceActions from '../../actions/static'
 import createResourceSagas from '../../sagas/static'
 import { call, put } from 'redux-saga/effects'
@@ -18,6 +11,12 @@ import {
   PendingAction,
   ErrorAction,
 } from '../../types'
+
+// mocking sagaUtils
+const originalWarning = sagaUtils.createMissingSagaWarning
+set(sagaUtils, 'createMissingSagaWarning', jest.fn())
+const unmock = () => set(sagaUtils, 'createMissingSagaWarning', originalWarning)
+// end mock
 
 describe('Saga', () => {
   let api: FunctionMap
@@ -142,5 +141,4 @@ describe('Saga', () => {
   it('should yield error while removing', () => {
     testModifyError('remove', 'setRemovePending', 'setRemoveError')
   })
-
 })
