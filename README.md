@@ -13,7 +13,7 @@ A resource is an entity with any of the following operations: "load", "create", 
 A resource can be defined by simply calling `createResource`. See the code below:
 
 ```javascript
-import { createResource } from '@zup-it/redux-resource'
+import { createResource } from '@zup-next/redux-resource'
 
 const profileApi = {
   load: () => axios.get('https://example.com/profile').then(response => response.data),
@@ -32,7 +32,7 @@ You can register the generated reducer to the redux store and the sagas to the s
 import resources from './resources'
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import createSagaMiddleware from 'redux-saga'
-import { createEffects } from '@zup-it/redux-resource'
+import { createEffects } from '@zup-next/redux-resource'
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -56,7 +56,7 @@ any react component connected by redux:
 ```javascript
 import react, { PureComponent } from 'react'
 import resources from './resources'
-import { isPristine, isLoading, hasLoadError } from '@zup-it/redux-resource'
+import { isPristine, isLoading, hasLoadError } from '@zup-next/redux-resource'
 
 class Profile extends PureComponent {
   
@@ -109,7 +109,7 @@ made it much easier to find and debug possible problems.
 # Installation
 
 ```
-yarn add @zup-it/redux-resource
+yarn add @zup-next/redux-resource
 ```
 
 or
@@ -135,7 +135,7 @@ These resources can be created using the following code:
 
 ```javascript
 import axios from 'axios'
-import { createResource } from '@zup-it/redux-resource'
+import { createResource } from '@zup-next/redux-resource'
 
 const api = axios.create({ baseURL: 'https://example.com' })
 
@@ -317,7 +317,7 @@ below:
 import resources from './resources'
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import createSagaMiddleware from 'redux-saga'
-import { createEffects } from '@zup-it/redux-resource'
+import { createEffects } from '@zup-next/redux-resource'
 
 ...
 
@@ -368,7 +368,7 @@ Through the `onSuccess` handler we can say that after every successful order, th
 fetched again. See the example below:
 
 ```javascript
-import { createResource } from '@zup-it/redux-resource'
+import { createResource } from '@zup-next/redux-resource'
 import { put } from 'redux-saga/effects'
 
 ...
@@ -437,7 +437,7 @@ default effect is `takeEvery`.
 
 Example:
 ```javascript
-import { createEffects } from '@zup-it/redux-resource'
+import { createEffects } from '@zup-next/redux-resource'
 ...
 
 const rootSaga = function* run() {
@@ -592,7 +592,7 @@ export default connect(null, { loadMovie: resources.movie.load })(MyComponent)
 You can check the operation status by checking the redux state:
 
 ```javascript
-import { isLoading } from '@zup-it/redux-resource'
+import { isLoading } from '@zup-next/redux-resource'
 
 function MyComponent({ movie }) {
   if (isLoading(movie['id001'])) return <p>Loading movie with id = "id001"</p>
@@ -690,7 +690,7 @@ or `error`.
 See an example below:
 
 ```javascript
-import { Resource } from '@zup-it/redux-resource'
+import { Resource } from '@zup-next/redux-resource'
 import { Profile } from './my-data-types'
 
 interface Props {
