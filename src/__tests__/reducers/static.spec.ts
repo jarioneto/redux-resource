@@ -32,7 +32,7 @@ const createTestSuit = (operation: Operation) => {
     test({
       actionType: `set${cap}Pending` as keyof ResourceActions,
       operation,
-      status: Status.pending
+      status: Status.pending,
     })
   })
 

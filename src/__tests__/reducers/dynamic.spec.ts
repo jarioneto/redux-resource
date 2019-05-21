@@ -35,7 +35,7 @@ const createTestSuit = (operation: Operation) => {
     test({
       actionType: `set${cap}Pending` as keyof ResourceActions,
       operation,
-      status: Status.pending
+      status: Status.pending,
     })
   })
 
@@ -65,7 +65,7 @@ const createTestSuit = (operation: Operation) => {
     }
     const initialState = {
       id001: { ...loadedResourceWithError },
-      id002: { ...loadedResourceWithError }
+      id002: { ...loadedResourceWithError },
     }
 
     test({

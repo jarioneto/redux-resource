@@ -13,14 +13,14 @@ import { createMissingSagaWarning } from './utils'
 interface ModifyResource {
   setPending: () => Action,
   setSuccess: () => Action,
-  setError: (error: Object) => Action,
+  setError: (error: any) => Action,
   execute: (data: any) => Promise<any>,
   onSuccess?: SagaEventHandler,
 }
 
 export const loadResource = (
   actions: ResourceActions,
-  load: (params?: Object) => Promise<any>,
+  load: (params?: Record<string, any>) => Promise<any>,
   onSuccess?: SagaEventHandler,
 ) => {
   return function* ({ params }: Action) {

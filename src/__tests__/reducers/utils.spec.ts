@@ -19,11 +19,11 @@ describe('Reducer utilities', () => {
   })
 
   it('should create reducer', () => {
-    type State = { status: string, data: any, other: string }
+    interface State { status: string, data: any, other: string }
 
     const initial: State = { status: 'pristine', data: null, other: 'test' }
     const reducerMap = {
-      LOAD: (state: State) => ({ ...state,  status: 'loading' }),
+      LOAD: (state: State) => ({ ...state, status: 'loading' }),
       SUCCESS: (state: State, { data }: AnyAction) => ({ ...state, data, status: 'success' }),
     }
     const reducer = createReducer(initial, reducerMap)

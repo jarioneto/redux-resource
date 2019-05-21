@@ -4,7 +4,8 @@ import * as staticResourceSagas from '../sagas/static'
 import * as dynamicResourceActions from '../actions/dynamic'
 import * as dynamicResourceReducer from '../reducers/dynamic'
 import * as dynamicResourceSagas from '../sagas/dynamic'
-import { set } from 'lodash'
+import { set, keys, difference } from 'lodash'
+import * as lib from '../'
 
 // mocks
 const originals = {
@@ -38,11 +39,7 @@ const unmock = () => {
 }
 // end mocks
 
-import * as lib from '../'
-import { keys, difference } from 'lodash'
-
 describe('Lib interface', () => {
-
   afterAll(unmock)
 
   it('should create resource', () => {
