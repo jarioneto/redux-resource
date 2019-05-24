@@ -57,7 +57,7 @@ describe('Saga', () => {
     expect(saga.next().value).toEqual(call(api[operation], data))
     expect(saga.next(response).value).toEqual(put(setSuccess()))
     saga.next()
-    expect(onSuccess[operation]).toHaveBeenCalledWith({ requestData: data, responseData: response })
+    expect(onSuccess[operation]).toHaveBeenCalledWith({ requestData: data, responseData: response }, actions)
     expect(saga.next().done).toBeTruthy()
   }
 
@@ -100,7 +100,7 @@ describe('Saga', () => {
     expect(saga.next().value).toEqual(call(api.load, params))
     expect(saga.next(response).value).toEqual(put(setLoadSuccess(response)))
     saga.next()
-    expect(onSuccess.load).toHaveBeenCalledWith({ requestData: params, responseData: response })
+    expect(onSuccess.load).toHaveBeenCalledWith({ requestData: params, responseData: response }, actions)
     expect(saga.next().done).toBeTruthy()
   })
 

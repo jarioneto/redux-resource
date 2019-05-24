@@ -11,6 +11,7 @@ import { call, put } from 'redux-saga/effects'
 import { createMissingSagaWarning } from './utils'
 
 interface ModifyResource {
+  actions: ResourceActions,
   setPending: () => Action,
   setSuccess: () => Action,
   setError: (error: any) => Action,
@@ -29,7 +30,7 @@ export const loadResource = (
       yield put(setLoadPending())
       const data = yield call(load, params)
       yield put(setLoadSuccess(data))
-      if (onSuccess) yield onSuccess({ requestData: params, responseData: data })
+      if (onSuccess) yield onSuccess({ requestData: params, responseData: data }, actions)
     } catch (error) {
       yield put(setLoadError(error))
     }
@@ -37,14 +38,14 @@ export const loadResource = (
 }
 
 export const modifyResource = (props: ModifyResource) => {
-  const { setPending, setSuccess, setError, execute, onSuccess } = props
+  const { actions, setPending, setSuccess, setError, execute, onSuccess } = props
 
   return function* ({ data }: Action) {
     try {
       yield put(setPending())
       const response = yield call(execute, data)
       yield put(setSuccess())
-      if (onSuccess) yield onSuccess({ requestData: data, responseData: response })
+      if (onSuccess) yield onSuccess({ requestData: data, responseData: response }, actions)
     } catch (error) {
       yield put(setError(error))
     }
@@ -64,6 +65,7 @@ const createResourceSagas = (
 
   if (api.create) {
     const createSaga = modifyResource({
+      actions,
       setPending: actions.setCreatePending,
       setSuccess: actions.setCreateSuccess,
       setError: actions.setCreateError,
@@ -78,6 +80,7 @@ const createResourceSagas = (
 
   if (api.update) {
     const updateSaga = modifyResource({
+      actions,
       setPending: actions.setUpdatePending,
       setSuccess: actions.setUpdateSuccess,
       setError: actions.setUpdateError,
@@ -92,6 +95,7 @@ const createResourceSagas = (
 
   if (api.remove) {
     const removeSaga = modifyResource({
+      actions,
       setPending: actions.setRemovePending,
       setSuccess: actions.setRemoveSuccess,
       setError: actions.setRemoveError,

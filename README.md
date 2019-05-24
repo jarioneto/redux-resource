@@ -393,10 +393,17 @@ function* onOrderSuccess({ requestData: order }) {
 }
 ```
 
-An onSuccess handler will always receive as parameter an object containing the keys `requestData`
-and `responseData`. The value of `requestData` is the parameter passed when calling the
-actionCreator `load`, `create`, `update` or `remove`. The value of `responseData` is the return
-value of the api method.
+An onSuccess handler will always receive as first parameter an object containing the keys
+`requestData` and `responseData` (it also receives an `id` if it's a
+[dynamic resource](#dynamic-resources)). The value of `requestData` is the parameter passed when
+calling the actionCreator `load`, `create`, `update` or `remove`. The value of `responseData` is the
+return value of the api method.
+
+The second parameter received by a success handler is the object `ownActions`, this object is the
+same received in `actions` when calling `createResources`. It's useful when you need to perform an
+action on the same resource when something succeeds, e.g. you could to update the `data` of a
+resource with the payload of the operation `update`. In this case, you'd call
+`ownActions.setLoadSuccess(responseData)`.
 
 # Utilities for checking the operation status
 
@@ -573,6 +580,7 @@ A dynamic resource works almost exactly like a common resource. The only differe
 - Every api method receives the id as its first parameter and a data object as second parameter;
 - Every action creator must receive an id as its first parameter. `load`, for instance must be
 passed an id.
+- A success handler will also receive the property `id` in the object passed as first parameter.
 - The redux state is no longer a resource. Instead, it is an object where every key is an id and
 its value is a resource.
 
