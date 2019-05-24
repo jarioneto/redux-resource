@@ -11,6 +11,7 @@ import { call, put } from 'redux-saga/effects'
 import { createMissingSagaWarning } from './utils'
 
 interface ModifyResource {
+  actions: DynamicResourceActions,
   setPending: (id: string) => DynamicAction,
   setSuccess: (id: string) => DynamicAction,
   setError: (id: string, error: any) => DynamicAction,
@@ -29,7 +30,7 @@ const loadResource = (
       yield put(setLoadPending(id))
       const data = yield call(load, id, params)
       yield put(setLoadSuccess(id, data))
-      if (onSuccess) yield onSuccess({ id, requestData: params, responseData: data })
+      if (onSuccess) yield onSuccess({ id, requestData: params, responseData: data }, actions)
     } catch (error) {
       yield put(setLoadError(id, error))
     }
@@ -37,14 +38,14 @@ const loadResource = (
 }
 
 const modifyResource = (props: ModifyResource) => {
-  const { setPending, setSuccess, setError, execute, onSuccess } = props
+  const { actions, setPending, setSuccess, setError, execute, onSuccess } = props
 
   return function* ({ id, data }: DynamicAction) {
     try {
       yield put(setPending(id))
       const response = yield call(execute, id, data)
       yield put(setSuccess(id))
-      if (onSuccess) yield onSuccess({ id, requestData: data, responseData: response })
+      if (onSuccess) yield onSuccess({ id, requestData: data, responseData: response }, actions)
     } catch (error) {
       yield put(setError(id, error))
     }
@@ -64,6 +65,7 @@ const createDynamicResourceSagas = (
 
   if (api.create) {
     const createSaga = modifyResource({
+      actions,
       setPending: actions.setCreatePending,
       setSuccess: actions.setCreateSuccess,
       setError: actions.setCreateError,
@@ -78,6 +80,7 @@ const createDynamicResourceSagas = (
 
   if (api.update) {
     const updateSaga = modifyResource({
+      actions,
       setPending: actions.setUpdatePending,
       setSuccess: actions.setUpdateSuccess,
       setError: actions.setUpdateError,
@@ -92,6 +95,7 @@ const createDynamicResourceSagas = (
 
   if (api.remove) {
     const removeSaga = modifyResource({
+      actions,
       setPending: actions.setRemovePending,
       setSuccess: actions.setRemoveSuccess,
       setError: actions.setRemoveError,
