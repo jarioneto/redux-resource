@@ -1,5 +1,10 @@
 # <img src='https://raw.githubusercontent.com/zup-next/redux-resource/master/header.png' height='60' alt='redux-resource' aria-label='redux-resource' />
 
+![CircleCI branch](https://img.shields.io/circleci/project/github/zup-next/redux-resource/master.svg)
+![npm](https://img.shields.io/npm/v/@zup-next/redux-resource.svg)
+![NPM](https://img.shields.io/npm/l/@zup-next/redux-resource.svg)
+![npm bundle size (version)](https://img.shields.io/bundlephobia/min/@zup-next/redux-resource/latest.svg)
+
 After dealing multiple times with making network requests, setting their state and rendering stuff
 according to the state of the request and the data returned from the server, we observed that we
 always do basically the same thing. Instead of repeating the same logic over and over again, we
