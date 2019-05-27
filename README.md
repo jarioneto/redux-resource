@@ -1,4 +1,4 @@
-# <img src='https://raw.githubusercontent.com/zup-next/redux-resource/readme-img/header.png' height='60' alt='redux-resource' aria-label='redux-resource' />
+# <img src='https://raw.githubusercontent.com/zup-next/redux-resource/header.png' height='60' alt='redux-resource' aria-label='redux-resource' />
 
 After dealing multiple times with making network requests, setting their state and rendering stuff
 according to the state of the request and the data returned from the server, we observed that we
