@@ -1,5 +1,6 @@
 # <img src='https://raw.githubusercontent.com/zup-next/redux-resource/master/header.png' height='60' alt='redux-resource' aria-label='redux-resource' />
 
+![Codecov](https://img.shields.io/codecov/c/github/zup-next/redux-resource.svg)
 ![CircleCI branch](https://img.shields.io/circleci/project/github/zup-next/redux-resource/master.svg)
 ![npm](https://img.shields.io/npm/v/@zup-next/redux-resource.svg)
 ![NPM](https://img.shields.io/npm/l/@zup-next/redux-resource.svg)
